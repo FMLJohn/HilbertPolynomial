@@ -21,7 +21,7 @@ Remember the assumptions in the file `HilbertPolynomial/HilbertSerre/Theorem.lea
 `variable (S : generatingSetOverBaseRing 𝒜)`
 
 This file inherits all the above settings. With an additional assumption
-`hS : ∀ i : S.toFinset, S.deg i.2 = 1`, the main things achieved in this file are:
+`hS : (i : S.toFinset) → S.deg i.2 = 1`, the main things achieved in this file are:
 1. formalising the Hilbert polynomial `HilbertSerre.hilbertPolynomial ℳ μ S : ℚ[X]`;
 2. proving that for any large enough `n : ℕ`, the value of the additive function `μ` at `ℳ n`
    is equal to the value of the Hilbert polynomial at `n`;
@@ -38,7 +38,7 @@ variable [AddCommGroup M] [Module A M] [finite_module : Module.Finite A M]
 variable (𝒜 : ℕ → AddSubgroup A) (ℳ : ℕ → AddSubgroup M)
 variable [GradedRing 𝒜] [DirectSum.Decomposition ℳ] [SetLike.GradedSMul 𝒜 ℳ]
 variable (μ : (FGModuleCat (𝒜 0)) ⟹+ ℤ)
-variable (S : generatingSetOverBaseRing 𝒜) (hS : ∀ i : S.toFinset, S.deg i.2 = 1)
+variable (S : generatingSetOverBaseRing 𝒜) (hS : (i : S.toFinset) → S.deg i.2 = 1)
 
 open AdditiveFunction BigOperators generatingSetOverBaseRing Polynomial PowerSeries
 
