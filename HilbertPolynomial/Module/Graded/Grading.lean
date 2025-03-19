@@ -51,7 +51,7 @@ variable [(i : ιA) → (x : 𝒜 i) → Decidable (x ≠ 0)] [∀ a : A, Decida
 Then `A' ≃ ⨁ᵢ Aᵢ ∩ A` by `a ↦ i ↦ aᵢ`. This is well-defined because `A'` is a homogeneoeus subring.
 -/
 protected def grading.decompose (a : A') : ⨁ i, A'.grading i :=
-∑ i ∈ (decompose 𝒜 a).support,
+  ∑ i ∈ (decompose 𝒜 a).support,
   .of _ (i : ιA) ⟨⟨decompose 𝒜 a i, A'.2 i a.2⟩, SetLike.coe_mem _⟩
 
 set_option linter.unusedSectionVars false
@@ -66,7 +66,7 @@ lemma grading.decompose_apply (a : A') (j : ιA) :
   delta grading.decompose
   simp only
   erw [DFinsupp.finset_sum_apply,  AddSubmonoidClass.coe_finset_sum,
-        AddSubmonoidClass.coe_finset_sum]
+      AddSubmonoidClass.coe_finset_sum]
   simp_rw [DirectSum.coe_of_apply]
   calc _
     _ = ∑ i ∈ (decompose 𝒜 (a : A)).support,
@@ -152,7 +152,6 @@ instance : AddSubgroupClass (HomogeneousSubmodule A ℳ) M where
   zero_mem {x} := x.toSubmodule.zero_mem
   neg_mem {x} := x.toSubmodule.neg_mem
 
-
 instance : SMulMemClass (HomogeneousSubmodule A ℳ) A M where
   smul_mem {S} a _ h := S.toSubmodule.smul_mem a h
 
@@ -173,12 +172,11 @@ def grading (i : ιM) : AddSubgroup p where
 
 variable [(i : ιM) → (x : ℳ i) → Decidable (x ≠ 0)] [∀ a : M, Decidable (a ∈ p)]
 
-
 /--
 `p ≃ ⨁ᵢ p ∩ Mᵢ` is defined by `x ↦ i ↦ xᵢ`. This is well-defined because `p` is homogeneous.
 -/
 protected def grading.decompose (a : p) : ⨁ i, p.grading i :=
-∑ i ∈ ((decompose ℳ a).support.filter fun i ↦ (decompose ℳ a i : M) ∈ p).attach,
+  ∑ i ∈ ((decompose ℳ a).support.filter fun i ↦ (decompose ℳ a i : M) ∈ p).attach,
   .of _ (i : ιM) ⟨⟨decompose ℳ a i, Finset.mem_filter.mp i.2 |>.2⟩, SetLike.coe_mem _⟩
 
 lemma grading.decompose_zero : grading.decompose p 0 = 0 := by
@@ -194,7 +192,7 @@ lemma grading.decompose_apply (a : p) (j : ιM) :
   delta grading.decompose
   simp only
   erw [DFinsupp.finset_sum_apply,  AddSubmonoidClass.coe_finset_sum,
-        AddSubmonoidClass.coe_finset_sum]
+      AddSubmonoidClass.coe_finset_sum]
   simp_rw [DirectSum.coe_of_apply]
   calc _
     _ = (∑ i ∈ ((decompose ℳ (a : M)).support.filter
@@ -297,30 +295,29 @@ def quotientGrading (i : ιM) : AddSubgroup (M ⧸ p.toSubmodule) :=
 homogeneous.
 -/
 def quotientGrading.decomposeAux : M →+ ⨁ i, p.quotientGrading i :=
-AddMonoidHom.comp
-  (DFinsupp.liftAddHom fun i ↦
-    { toFun := fun m ↦ .of _ i ⟨p.toSubmodule.mkQ m.1, ⟨Quotient.mk'' m, by
-        rw [quotientGradingEmb]
-        erw [QuotientAddGroup.map_mk']⟩⟩
-      map_zero' := DFinsupp.ext fun j ↦ by
-        simp only [ZeroMemClass.coe_zero, map_zero, zero_apply]
-        ext
-        by_cases h : i = j
-        · subst h
-          simp only [of_eq_same, ZeroMemClass.coe_zero]
-        · rw [of_eq_of_ne]; exact h
-      map_add' := by
-        rintro a b
-        simp only [AddSubmonoid.coe_add, AddSubgroup.coe_toAddSubmonoid, map_add,
-          Submodule.mkQ_apply]
-        refine DFinsupp.ext fun j ↦ ?_
-        ext
-        by_cases h : i = j
-        · subst h
-          simp only [AddSubgroup.coe_add, Submodule.Quotient.mk_add, of_eq_same, add_apply,
-            AddMemClass.mk_add_mk]
-        · rw [of_eq_of_ne, DirectSum.add_apply, of_eq_of_ne, of_eq_of_ne, add_zero] <;> exact h
-         })
+  AddMonoidHom.comp
+    (DFinsupp.liftAddHom fun i ↦
+      { toFun := fun m ↦ .of _ i ⟨p.toSubmodule.mkQ m.1, ⟨Quotient.mk'' m, by
+          rw [quotientGradingEmb]
+          erw [QuotientAddGroup.map_mk']⟩⟩
+        map_zero' := DFinsupp.ext fun j ↦ by
+          simp only [ZeroMemClass.coe_zero, map_zero, zero_apply]
+          ext
+          by_cases h : i = j
+          · subst h
+            simp only [of_eq_same, ZeroMemClass.coe_zero]
+          · rw [of_eq_of_ne]; exact h
+        map_add' := by
+          rintro a b
+          simp only [AddSubmonoid.coe_add, AddSubgroup.coe_toAddSubmonoid, map_add,
+            Submodule.mkQ_apply]
+          refine DFinsupp.ext fun j ↦ ?_
+          ext
+          by_cases h : i = j
+          · subst h
+            simp only [AddSubgroup.coe_add, Submodule.Quotient.mk_add, of_eq_same, add_apply,
+              AddMemClass.mk_add_mk]
+          · rw [of_eq_of_ne, DirectSum.add_apply, of_eq_of_ne, of_eq_of_ne, add_zero] <;> exact h })
   (DirectSum.decomposeAddEquiv ℳ).toAddMonoidHom
 
 lemma quotientGrading.le_decomposeAux_ker :

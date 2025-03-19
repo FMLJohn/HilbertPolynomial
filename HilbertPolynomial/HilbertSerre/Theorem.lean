@@ -45,7 +45,7 @@ category of finitely generated `A₀`-module, its Poincaré series is defined as
 `∑ᵢ μ(Mᵢ) Xⁱ ∈ ℤ⟦X⟧`.
 -/
 def poincareSeries : ℤ⟦X⟧ :=
-PowerSeries.mk fun n ↦ μ <| .of _ <| (ℳ n : Type u)
+  PowerSeries.mk fun n ↦ μ <| .of _ <| (ℳ n : Type u)
 
 lemma coeff_poincareSeries (n : ℕ) :
     PowerSeries.coeff _ n (μ.poincareSeries 𝒜 ℳ) = μ (.of _ <| ℳ n) := by
@@ -70,18 +70,18 @@ end AdditiveFunction
 A finite collection of homogeneous elements that generates `A` over `A₀`.
 -/
 structure generatingSetOverBaseRing where
-/--
-A finite collection of homogeneous elements that generates `A` over `A₀`.
--/
-toFinset : Finset A
-/--
-A finite collection of homogeneous elements with degree `dᵢ` that generates `A` over `A₀`.
--/
-deg : ∀ {a : A}, a ∈ toFinset → ℕ
-mem_deg : ∀ {a : A} (h : a ∈ toFinset), a ∈ 𝒜 (deg h)
-deg_pos : ∀ {a : A} (h : a ∈ toFinset), 0 < deg h
-ne_zero' : ∀ {a : A}, a ∈ toFinset → a ≠ 0
-span_eq : Algebra.adjoin (𝒜 0) toFinset = (⊤ : Subalgebra (𝒜 0) A)
+  /--
+  A finite collection of homogeneous elements that generates `A` over `A₀`.
+  -/
+  toFinset : Finset A
+  /--
+  A finite collection of homogeneous elements with degree `dᵢ` that generates `A` over `A₀`.
+  -/
+  deg : ∀ {a : A}, a ∈ toFinset → ℕ
+  mem_deg : ∀ {a : A} (h : a ∈ toFinset), a ∈ 𝒜 (deg h)
+  deg_pos : ∀ {a : A} (h : a ∈ toFinset), 0 < deg h
+  ne_zero' : ∀ {a : A}, a ∈ toFinset → a ≠ 0
+  span_eq : Algebra.adjoin (𝒜 0) toFinset = (⊤ : Subalgebra (𝒜 0) A)
 
 namespace generatingSetOverBaseRing
 
@@ -142,7 +142,6 @@ lemma poles_inv_eq' :
   simp only [map_sub, map_one, map_pow, constantCoeff_X, Units.val_one, sub_eq_self,
     pow_eq_zero_iff', ne_eq, true_and]
   linarith [S.deg_pos hi]
-
 
 end generatingSetOverBaseRing
 
@@ -486,8 +485,6 @@ instance : Module.Finite A (KER ℳ x deg_x) := by
 instance (n : ℕ) : Module.Finite (𝒜 0) ((KER ℳ x deg_x).grading n) :=
   GradedModule.finite_module_over_degree_zero_subring _ _ _
 
-
-
 set_option maxHeartbeats 500000 in
 /--
 The exact sequence
@@ -813,14 +810,13 @@ The degree zero part of `A'` and `A` agrees.
 -/
 @[simps!]
 def AZeroEquivA'Zero : 𝒜 0 ≃+* 𝒜' S x S' hS' 0 :=
-RingEquiv.ofHomInv (AZeroToA'Zero S x S' hS') (A'ZeroToAZero S x S' hS')
-  (A'ZeroToAZero_comp_AZeroToA'Zero S x S' hS')
-  (AZeroToA'Zero_comp_A'ZeroToAZero S x S' hS')
+  RingEquiv.ofHomInv (AZeroToA'Zero S x S' hS') (A'ZeroToAZero S x S' hS')
+    (A'ZeroToAZero_comp_AZeroToA'Zero S x S' hS')
+    (AZeroToA'Zero_comp_A'ZeroToAZero S x S' hS')
 
 /--
 Since the degree zero part of `A'` and `A` agrees. any additive `μ` from finitely generated `Aₒ`
 modules gaves an additive function from finitely generated `A'₀` modules.
-
 -/
 noncomputable def μ' : FGModuleCat (𝒜' S x S' hS' 0) ⟹+ ℤ :=
   μ.pushforward <| RingEquiv.toFGModuleCatEquivalence <| AZeroEquivA'Zero S x S' hS'

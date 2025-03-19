@@ -16,7 +16,6 @@ import HilbertPolynomial.missing_lemmas.FGModuleCat
 This file is almost a copy of `Algebra/ModuleCat/EpiMono.lean`
 -/
 
-
 universe u
 
 open CategoryTheory

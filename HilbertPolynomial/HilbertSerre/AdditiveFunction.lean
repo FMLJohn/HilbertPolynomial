@@ -40,23 +40,19 @@ A function `λ : 𝒞 → ℤ` is additive precisely when `λ B = λ A + λ C` f
 `s := 0 --> A --> B --> C --> 0`.
 -/
 structure AdditiveFunction where
-/--
-A function `λ : 𝒞 → ℤ` is additive precisely when `λ B = λ A + λ C` for every short exact sequence
-`s := 0 --> A --> B --> C --> 0`.
--/
-toFun : 𝒞 → G
-/--
-A function `λ : 𝒞 → ℤ` is additive precisely when `λ B = λ A + λ C` for every short exact sequence
-`s := 0 --> A --> B --> C --> 0`.
--/
-additive (s : ShortComplex 𝒞) (hs : s.ShortExact) : toFun s.X₁ + toFun s.X₃ = toFun s.X₂
+  /--
+  A function `λ : 𝒞 → ℤ` is additive precisely when `λ B = λ A + λ C` for every short exact
+  sequence `s := 0 --> A --> B --> C --> 0`.
+  -/
+  toFun : 𝒞 → G
+  /--
+  A function `λ : 𝒞 → ℤ` is additive precisely when `λ B = λ A + λ C` for every short exact
+  sequence `s := 0 --> A --> B --> C --> 0`.
+  -/
+  additive (s : ShortComplex 𝒞) (hs : s.ShortExact) : toFun s.X₁ + toFun s.X₃ = toFun s.X₂
 
 @[inherit_doc]
 notation 𝒞 "⟹+" G => AdditiveFunction 𝒞 G
-
-
--- @[inherit_doc]
--- notation C "==>+ ℤ" => AdditiveFunction C
 
 namespace AdditiveFunction
 

@@ -36,7 +36,7 @@ For each `a : M`, `GradedModule.homogeneousComponents ℳ a` is the collection o
 homogeneous components of `a`, which is a finite subset of `M`.
 -/
 def homogeneousComponents [DecidableEq ιM] [Decomposition 𝓜] [DecidableEq M] (a : M) : Finset M :=
-    (decompose 𝓜 a).support.image (decompose 𝓜 a ·)
+  (decompose 𝓜 a).support.image (decompose 𝓜 a ·)
 
 lemma homogeneous_of_mem_homogeneousComponents [DecidableEq ιM] [Decomposition 𝓜] [DecidableEq M]
     {a b : M} (hb : b ∈ homogeneousComponents 𝓜 a) : SetLike.IsHomogeneousElem 𝓜 b := by
