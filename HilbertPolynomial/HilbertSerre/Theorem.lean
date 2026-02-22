@@ -21,7 +21,7 @@ import Mathlib.Algebra.Module.Torsion
 universe u
 variable {A M : Type u}
 variable [CommRing A] [noetherian_ring : IsNoetherianRing A]
-variable [AddCommGroup M] [Module A M] [finite_module : Module.Finite A M]
+variable [AddCommGroup M] [Module A M] [Module.Finite A M]
 variable (𝒜 : ℕ → AddSubgroup A) (ℳ : ℕ → AddSubgroup M)
 variable [GradedRing 𝒜] [DirectSum.Decomposition ℳ] [SetLike.GradedSMul 𝒜 ℳ]
 
@@ -315,7 +315,7 @@ def KER : HomogeneousSubmodule A ℳ where
     rw [h, if_pos (by linarith), map_zero, GradedModule.proj_apply, Nat.add_sub_cancel] at this
     exact this.symm
 
-omit finite_module noetherian_ring in
+omit [Module.Finite A M] noetherian_ring in
 lemma mem_KER_iff (a : M) : a ∈ KER ℳ x deg_x ↔ x • a = 0 := Iff.rfl
 
 instance [(i : ℕ) → (x : ↥(ℳ i)) → Decidable (x ≠ 0)] [(a : M) → Decidable (a ∈ KER ℳ x deg_x)] : DirectSum.Decomposition (KER ℳ x deg_x).grading :=
@@ -388,7 +388,7 @@ def COKER.descComponent (n : ℕ) :
   map_smul' := by intros; ext; rfl
 
 -- `0 -> KERₘ -> ℳₙ` is exact
-omit finite_module noetherian_ring in
+omit [Module.Finite A M] noetherian_ring in
 lemma KER.componentEmb_injective (n : ℕ) : Function.Injective (KER.componentEmb ℳ x deg_x n) := by
   intros a b h
   ext
@@ -396,7 +396,7 @@ lemma KER.componentEmb_injective (n : ℕ) : Function.Injective (KER.componentEm
   exact h
 
 -- `KERₙ -> ℳₙ -> ℳ_{d + n}` is exact
-omit finite_module noetherian_ring in
+omit [Module.Finite A M] noetherian_ring in
 lemma exact_KERComponentEmb_smulBy (n : ℕ) :
     LinearMap.range (KER.componentEmb ℳ x deg_x n) = LinearMap.ker (smulBy ℳ x deg_x n) := by
   ext m
@@ -410,7 +410,7 @@ lemma exact_KERComponentEmb_smulBy (n : ℕ) :
     exact ⟨⟨⟨m, hm⟩, m.2⟩, rfl⟩
 
 -- `ℳₙ -> ℳ_{d + n} -> COKER_{d + n}` is exact
-omit finite_module noetherian_ring in
+omit [Module.Finite A M] noetherian_ring in
 lemma exact_smulBy_COKERDescComponent (n : ℕ) :
     LinearMap.range (smulBy ℳ x deg_x n) =
     LinearMap.ker (COKER.descComponent ℳ x deg_x (d + n)) := by
@@ -447,7 +447,7 @@ def reindex (i : ℕ) (ineq : d ≤ i) : (ℳ (d + (i - d))) ≃ₗ[(𝒜 0)] (�
   left_inv x := by ext; rfl
   right_inv x := by ext; rfl
 
-omit finite_module noetherian_ring in
+omit [Module.Finite A M] noetherian_ring in
 lemma exact_smulBy_COKERDescComponent' (n : ℕ) (ineq : d ≤ n) :
     LinearMap.range ((reindex ℳ n ineq).toLinearMap ∘ₗ (smulBy ℳ x deg_x (n - d))) =
     LinearMap.ker (COKER.descComponent ℳ x deg_x n) := by
@@ -459,14 +459,14 @@ lemma exact_smulBy_COKERDescComponent' (n : ℕ) (ineq : d ≤ n) :
     Submodule.top_toAddSubgroup] at h ⊢ <;>
   exact h
 
-omit finite_module noetherian_ring in
+omit [Module.Finite A M] noetherian_ring in
 lemma COKER.descComponent_surjective (n : ℕ) :
     Function.Surjective (COKER.descComponent ℳ x deg_x (d + n)) := by
   rintro ⟨_, ⟨m, rfl⟩⟩
   induction' m using Quotient.inductionOn' with m
   exact ⟨m, rfl⟩
 
-omit finite_module noetherian_ring in
+omit [Module.Finite A M] noetherian_ring in
 lemma COKER.descComponent_surjective' (n : ℕ) :
     Function.Surjective (COKER.descComponent ℳ x deg_x n) := by
   rintro ⟨_, ⟨m, rfl⟩⟩
