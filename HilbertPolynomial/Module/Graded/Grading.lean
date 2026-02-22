@@ -27,7 +27,7 @@ variable [DecidableEq ιA] [DecidableEq ιM]
 variable (𝒜 : ιA → σA) (ℳ : ιM → σM)
 variable [AddCommGroup M] [AddSubgroupClass σM M] [Decomposition ℳ]
 variable [Ring A] [Module A M]
-variable [SetLike σA A] [AddSubgroupClass σA A]
+variable [AddSubgroupClass σA A]
 variable [DecidableEq ιA] [AddMonoid ιA] [GradedRing 𝒜]
 
 namespace HomogeneousSubring
@@ -39,11 +39,8 @@ variable (A' : HomogeneousSubring 𝒜)
 If `A` is a graded ring and `A'` a homogeneous subring, then `A'` is also graded whose degree `i`
 part is `Aᵢ ∩ A'`.
 -/
-def grading (i : ιA) : AddSubgroup A' where
-  carrier := { a | (a : A) ∈ 𝒜 i }
-  add_mem' := AddMemClass.add_mem
-  zero_mem' := ZeroMemClass.zero_mem _
-  neg_mem' := NegMemClass.neg_mem
+def grading (i : ιA) : AddSubgroup A' :=
+  (AddSubgroup.ofClass (𝒜 i)).comap A'.subtype
 
 variable [(i : ιA) → (x : 𝒜 i) → Decidable (x ≠ 0)] [∀ a : A, Decidable (a ∈ A')]
 
