@@ -161,11 +161,8 @@ section submodule_grading
 If `A` is a graded ring and `M` a graded module over `A`. Let `p` a homogeneous submodule of `M`,
 then `p` is a graded module over `A` as well whose degree `i` part is `Mᵢ ∩ p`.
 -/
-def grading (i : ιM) : AddSubgroup p where
-  carrier := { x | (x : M) ∈ ℳ i }
-  add_mem' := AddMemClass.add_mem
-  zero_mem' := ZeroMemClass.zero_mem _
-  neg_mem' := NegMemClass.neg_mem
+def grading (i : ιM) : AddSubgroup p :=
+  (AddSubgroup.ofClass (ℳ i)).comap p.subtype
 
 variable [(i : ιM) → (x : ℳ i) → Decidable (x ≠ 0)] [∀ a : M, Decidable (a ∈ p)]
 
