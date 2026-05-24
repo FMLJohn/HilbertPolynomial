@@ -19,6 +19,9 @@ variable [AddCommGroup M] [Module A M] [finite_module : Module.Finite A M]
 variable (𝒜 : ℕ → AddSubgroup A) (ℳ : ℕ → AddSubgroup M)
 variable [GradedRing 𝒜] [DirectSum.Decomposition ℳ] [SetLike.GradedSMul 𝒜 ℳ]
 variable (μ : (FGModuleCat (𝒜 0)) ⟹+ ℤ)
+variable (S : generatingSetOverBaseRing 𝒜)
 ```
+
+3. `S.poles`. The polynomial `∏ i ∈ S.toFinset.attach, (1 - PowerSeries.X ^ S.deg i.2)`, which has an inverse in `ℤ⟦X⟧ˣ`.
 
 ## Main Results
