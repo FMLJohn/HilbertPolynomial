@@ -10,6 +10,7 @@ In this repository, we have formalised the Hilbert polynomial of a graded module
 `𝒞` to `G` is additive if `μ B = μ A + μ C` for every short exact sequence `0 --> A --> B --> C --> 0` in `𝒞`. `AdditiveFunction 𝒞 G` is the type of all additive functions from `𝒞` to `G`.
 
 The next few definitions are based on the following assumptions:
+\\
 `universe u`
 `variable {A M : Type u}`
 `variable [CommRing A] [noetherian_ring : IsNoetherianRing A]`
