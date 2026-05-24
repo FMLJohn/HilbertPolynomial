@@ -8,6 +8,7 @@ In this repository, we have formalised the Hilbert polynomial of a graded module
 
 1. `AdditiveFunction 𝒞 G`. Given an abelian category `𝒞` and an additive commutative group `G`, a function `μ` from the class of all objects of
 `𝒞` to `G` is additive if `μ B = μ A + μ C` for every short exact sequence `0 --> A --> B --> C --> 0` in `𝒞`. `AdditiveFunction 𝒞 G` is the type of all additive functions from `𝒞` to `G`; we denote it as `𝒞 ⟹+ G`.
+2. wefwfwfewe  wef we f 
 
 The next few definitions are based on the following assumptions:
 ```
