@@ -24,6 +24,6 @@ variable (S : generatingSetOverBaseRing 𝒜)
 
 3. `S.poles`. The polynomial `∏ i ∈ S.toFinset.attach, (1 - PowerSeries.X ^ S.deg i.2)`, which has an inverse in `ℤ⟦X⟧ˣ`.
 4. `μ.poincareSeries 𝒜 ℳ`. The Poincaré series of the graded module `M` with respect to `μ`, which is defined as the power series
-`∑ᵢμ(Mᵢ)Xⁱ ∈ ℤ⟦X⟧`.
+`∑ᵢ μ(Mᵢ) Xⁱ ∈ ℤ⟦X⟧`.
 
 ## Main Results
