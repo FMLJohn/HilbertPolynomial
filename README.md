@@ -30,4 +30,8 @@ variable (S : generatingSetOverBaseRing 𝒜)
 
 1. `hilbert_serre 𝒜 ℳ μ S`. There exists a polynomial `p : Polynomial ℤ` such that `μ.poincareSeries 𝒜 ℳ = p • S.poles⁻¹`.
 2. `HilbertSerre.numeratorPolynomial ℳ μ S`. The polynomial `(hilbert_serre 𝒜 ℳ μ S).choose`.
-3. `HilbertSerre.hilbertPolynomial  `
+3. `HilbertSerre.hilbertPolynomial ℳ μ S`. The Hilbert polynomial of `M` with respect to `μ`, which is defined as `((numeratorPolynomial ℳ μ S).map (Int.castRingHom ℚ)).hilbertPoly S.toFinset.card`.
+
+From now on, assume that `hS : (i : S.toFinset) → S.deg i.2 = 1`.
+
+5. `HilbertSerre.AdditiveFunction_eq_hilbertPolynomial_eval`
