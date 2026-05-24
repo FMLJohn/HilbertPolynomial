@@ -1,1 +1,42 @@
 \chapter{Hilbert Polynomial}
+
+The power series of the rational function $1/(1-t)$ is $\Sigma_{n=0}^{\infty}t^n$. By induction, we can show that for any positive integer $d$, we have
+\[
+\frac{1}{(1-t)^d}=\sum_{n=0}^{\infty}
+\left(
+\begin{array}{c}
+d+n-1 \\
+d-1
+\end{array}\right)
+t^n.
+\]
+Now assume $d_1=d_2=\cdots=d_s=1$. Then $P(M,\mu,t)=p(t){/(1-t)^s}$. If we write $p(t)=\Sigma_{i=0}^{N}r_i{t^i}$, then by comparing coefficients, for any $n>{N}$, the coefficient of $t^n$ in $P(M,\mu,t)$ (that is, $\mu(M_n)$) equals
+\[
+\sum_{i=0}^N{r_i}
+\left(
+\begin{array}{c}
+s+n-i-1 \\
+s-1
+\end{array}\right),
+\]
+provided that $0<s$. For each $i=0,\ldots,N$,
+\[
+\left(
+\begin{array}{c}
+s+n-i-1 \\
+s-1
+\end{array}\right)
+\]
+is equal to the value of the polynomial
+\[
+\frac{(t-i+1)(t-i+2)\cdots(t-i+s-1)}{(s-1)!}\in\mathbb{Q}[t]
+\]
+at $n$, so there exists a unique polynomial $h\in\mathbb{Q}[t]$ such that for any $n>{N}$, $\mu(M_n)=h(n)$ (if $s=0$, then we may let $h$ be the zero polynomial). This $h$ is the \textbf{Hilbert polynomial} of $M$ with respect to $\mu$.
+
+\begin{theorem}
+\label{HilDeg}
+Let $\mu$ be a $\mathbb{Z}$-valued additive function on the class of all finitely generated $A_0$-modules and let $h$ be the corresponding Hilbert polynomial of $M$. Suppose $d_1=\cdots=d_s=1$, so that $P(M,\mu,t)=p(t)/(1-t)^s$ for some $p\in\mathbb{Q}[t]$. If $h\neq{0}$, then the degree of $h$ is $s-m-1$, where $m$ is the multiplicity of $1$ in $p(t)$.
+\end{theorem}
+\begin{proof}
+We cannot have $p=0$ or $s\le{m}$, because otherwise $h$ would be zero. Hence, $p$ can be written as $(1-t)^{m}q(t)$ for some $q\in\mathbb{Q}[t]$ that is not divisible by $1-t$. Then $P(M,\mu,t)=q(t)/(1-t)^{s-m}$. By how we have introduced the notion of Hilbert polynomials, $h$ is a linear combination of polynomials of degree $s-m-1$, so $\operatorname{deg}(h)$ cannot exceed $s-m-1$, and it suffices to show that the coefficient of $t^{s-m-1}$ in $h$ is nonzero. If we write $q(t)$ as $\Sigma_{i=0}^Nr_it^i$, then the coefficient of $t^{s-m-1}$ in $h$ is $(\Sigma_{i=0}^N{r_i})/(s-m-1)!$, so we need to prove that $\Sigma_{i=0}^Nr_i\neq{0}$. But this is easy, since $\Sigma_{i=0}^Nr_i={0}$ would imply that $1$ is a root of $q$, which is a contradiction.
+\end{proof}
