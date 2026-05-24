@@ -62,7 +62,7 @@ The Hilbert polynomial, i.e. the polynomial such that for any `n : ℕ` which
 is big enough, the value of `μ` at `ℳ n` is equal to its value at `n`.
 -/
 noncomputable def hilbertPolynomial : Polynomial ℚ :=
-  (Polynomial.map (Int.castRingHom ℚ) (numeratorPolynomial ℳ μ S)).hilbertPoly S.toFinset.card
+  ((numeratorPolynomial ℳ μ S).map (Int.castRingHom ℚ)).hilbertPoly S.toFinset.card
 
 variable {S}
 
