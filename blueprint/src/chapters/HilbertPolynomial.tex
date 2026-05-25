@@ -1,7 +1,7 @@
 \chapter{Hilbert Polynomial}
 
 The power series of the rational function $1/(1-t)$ is $\Sigma_{n=0}^{\infty}t^n$. By induction, we can show that for any positive integer $d$, we have
-\[
+\begin{equation}
 \frac{1}{(1-t)^d}=\sum_{n=0}^{\infty}
 \left(
 \begin{array}{c}
@@ -9,28 +9,28 @@ d+n-1 \\
 d-1
 \end{array}\right)
 t^n.
-\]
+\end{equation}
 Now assume $d_1=d_2=\cdots=d_s=1$. Then $P(M,\mu,t)=p(t){/(1-t)^s}$. If we write $p(t)=\Sigma_{i=0}^{N}r_i{t^i}$, then by comparing coefficients, for any $n>{N}$, the coefficient of $t^n$ in $P(M,\mu,t)$ (that is, $\mu(M_n)$) equals
-\[
+\begin{equation}
 \sum_{i=0}^N{r_i}
 \left(
 \begin{array}{c}
 s+n-i-1 \\
 s-1
 \end{array}\right),
-\]
+\end{equation}
 provided that $0<s$. For each $i=0,\ldots,N$,
-\[
+\begin{equation}
 \left(
 \begin{array}{c}
 s+n-i-1 \\
 s-1
 \end{array}\right)
-\]
+\end{equation}
 is equal to the value of the polynomial
-\[
+\begin{equation}
 \frac{(t-i+1)(t-i+2)\cdots(t-i+s-1)}{(s-1)!}\in\mathbb{Q}[t]
-\]
+\end{equation}
 at $n$, so there exists a unique polynomial $h\in\mathbb{Q}[t]$ such that for any $n>{N}$, $\mu(M_n)=h(n)$ (if $s=0$, then we may let $h$ be the zero polynomial). This $h$ is the \textbf{Hilbert polynomial} of $M$ with respect to $\mu$.
 
 \begin{theorem}
