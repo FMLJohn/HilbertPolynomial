@@ -4,7 +4,7 @@ The statement of the Hilbert--Serre Theorem relies on these assumptions: $A=\opl
 
 \begin{lemma}
 \label{gradezeroNoering}
-$A_0$ is a subring of $A$ which is itself Noetherian.
+$A_0$ is a subring of $A$ which is itself Noetherian \cite[pp.106]{Atiyah}.
 \end{lemma}
 \begin{proof}
 By definition of a graded ring, the degree-zero component is closed under addition and multiplication, and it contains $0$ and $1$, so $A_0$ is a ring. Also, $A_0$ is isomorphic to the quotient $A/\oplus_{n=1}^{\infty}A_n$. As a quotient ring of a Noetherian ring is again Noetherian, $A_0$ is Noetherian.
@@ -19,6 +19,7 @@ Pick some $n\in\{0,1,\ldots\}$. $M_n$ is a module over $A_0$, because $M_n$ is c
 \end{proof}
 
 \begin{definition}
+\label{exactseq}
 Let $R$ be a ring. A sequence of $R$-modules and $R$-module homomorphisms
 \begin{equation}
 \cdots\stackrel{f_{-1}}{\rightarrow}M_0\stackrel{f_0}{\rightarrow}M_1\stackrel{f_1}{\rightarrow}M_2\stackrel{f_2}{\rightarrow}\cdots
@@ -27,6 +28,7 @@ is \textbf{exact} if for any $f_i$ and $f_{i+1}$ in the sequence, the image of $
 \end{definition}
 
 \begin{definition}
+\label{shortexactseq}
 Let $R$ be a ring. A \textbf{short exact sequence} of $R$-modules and $R$-module homomorphisms is an exact sequence
 \begin{equation}
 \label{shortexaseq}
@@ -36,18 +38,21 @@ where $0$ is the trivial module over $R$.
 \end{definition}
 
 \begin{definition}
+\label{moduleaddfunc}
 Let $R$ be a ring, $C$ be a class of modules over $R$ and $(G,+)$ be an abelian group. An \textbf{additive function} on $C$ with values in $G$ is a map $\mu:C\rightarrow{G}$ such that whenever there is a short exact sequence (\ref{shortexaseq}) with $M_1,M_2,M_3\in{C}$, we have that $\mu(M_1)+\mu(M_3)=\mu(M_2)$.
 \end{definition}
 
-Additive functions can be viewed as a generalisation of the dimensions of finite-dimensional vector spaces. Indeed, let $F$ be a field. Given any short exact sequence $0\rightarrow{V_1}\rightarrow{V_2}\rightarrow{V_3}\rightarrow{0}$ of finite-dimensional vector spaces over $F$, we have that $V_3$ is isomorphic to $V_2/V_1$, so $\operatorname{dim}(V_1)+\operatorname{dim}(V_3)=\operatorname{dim}(V_2)$ \cite[p23]{Atiyah}.
+Additive functions can be viewed as a generalisation of the dimensions of finite-dimensional vector spaces. Indeed, let $F$ be a field. Given any short exact sequence $0\rightarrow{V_1}\rightarrow{V_2}\rightarrow{V_3}\rightarrow{0}$ of finite-dimensional vector spaces over $F$, we have that $V_3$ is isomorphic to $V_2/V_1$, so $\operatorname{dim}(V_1)+\operatorname{dim}(V_3)=\operatorname{dim}(V_2)$.
 
 It is well-known that for any commutative Noetherian ring $R$, the class of finitely generated $R$-modules forms an abelian category. Hence, we decided to formalise the definition of additive functions as the following:
 
 \begin{definition}
+\label{abeliancataddfunc}
 Given an abelian category $\mathcal{C}$ and an additive commutative group $G$, a function $\mu$ from the class of all objects of $\mathcal{C}$ to $G$ is \textbf{additive} if for any short exact sequence $0\rightarrow{A}\rightarrow{B}\rightarrow{C}\rightarrow{0}$ with elements in $\mathcal{C}$, we have $\mu(A)+\mu(C)=\mu(B)$.
 \end{definition}
 
 \begin{definition}
+\label{Poincareser}
 Let $C$ be the class of all finitely generated modules over $A_0$ and suppose $\mu$ is an additive function on $C$ with values in $\mathbb{Z}$. Then the \textbf{Poincar\'e series} of $M$ in terms of $\mu$ is the formal power series
 \begin{equation}
 P(M,\mu,t)=\sum_{n=0}^{\infty}\mu(M_n)t^n.
@@ -119,6 +124,7 @@ If $s=0$, then $A=A_0$. As $M$ is a finitely generated $A_0$-module, there exist
 Now we assume Theorem \ref{HilSerInd} holds for $s$ and try to prove that it also holds for $s+1$. Note that for any $n\in{\mathbb{N}}$, the map $g_n$ defined by $m\mapsto{a_{s+1}}m$ is an $A_0$-module homomorphism from $M_n$ to $M_{n+d_{s+1}}$, where $d_{s+1}$ is the degree of $a_{s+1}$. We define $K_n$ and $L_{n+{d_{s+1}}}$ as $\operatorname{ker}(g_n)$ and $M_{n+d_{s+1}}/im(g_n)$, respectively. Let $K=\oplus_{n=0}^{\infty}K_n$ and let $L$ be the quotient module $M/a_{s+1}M$. Then $L$ is a graded $A$-module such that for any natural number $n\ge{d_{s+1}}$, the $n$-th grade is $L_{n}$.
 
 \begin{lemma}
+\label{KLprop}
 $K$ and $L$ are finitely generated graded modules over $A$ such that $a_{s+1}K=a_{s+1}L=0$.
 \end{lemma}
 \begin{proof}
@@ -126,6 +132,7 @@ It is easy to see that $K$ is a submodule of $M$. Also, finitely generated modul
 \end{proof}
 
 \begin{lemma}
+\label{KLfg}
 $K$ and $L$ are both finitely generated $A_0[a_1,\ldots,a_{s}]$-modules.
 \end{lemma}
 \begin{proof}
