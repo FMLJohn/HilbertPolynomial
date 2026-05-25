@@ -32,7 +32,7 @@ open BigOperators
 open PowerSeries
 
 noncomputable instance : Abelian (FGModuleCat (𝒜 0)) :=
-  letI := GradedRing.GradeZero.subring_isNoetherianRing_of_isNoetherianRing 𝒜
+  letI := GradedRing.GradeZero.isNoetherianRing 𝒜
   FGModuleCat.abelian_of_noetherian (R := 𝒜 0)
 
 variable (μ : (FGModuleCat (𝒜 0)) ⟹+ ℤ)
@@ -603,7 +603,7 @@ lemma anExactSeq_exact₃ (i : ℕ) (ineq : d ≤ i) :
 
 set_option maxHeartbeats 1000000 in
 lemma anExactSeq_exact (i : ℕ) (ineq : d ≤ i) : (anExactSeq ℳ x deg_x i ineq).Exact := by
-  letI := GradedRing.GradeZero.subring_isNoetherianRing_of_isNoetherianRing 𝒜
+  letI := GradedRing.GradeZero.isNoetherianRing 𝒜
   fconstructor
   · apply anExactSeq_complex
   rintro j (hj : j + 2 ≤ 5)
@@ -721,7 +721,7 @@ omit noetherian_ring in
 lemma mem_A' (a : A) : a ∈ A' S x S' hS' ↔ a ∈ Algebra.adjoin (𝒜 0) S' := Iff.rfl
 
 instance noetherian_A' : IsNoetherianRing (A' S x S' hS') :=
-  letI := GradedRing.GradeZero.subring_isNoetherianRing_of_isNoetherianRing 𝒜
+  letI := GradedRing.GradeZero.isNoetherianRing 𝒜
   Algebra.adjoin_isNoetherian (R := 𝒜 0) S'
 
 /--
@@ -736,10 +736,10 @@ instance gradedRing_A' : GradedRing (𝒜' S x S' hS') :=
   HomogeneousSubring.gradedRing (A' S x S' hS')
 
 instance noetherian_A'_zero : IsNoetherianRing (𝒜' S x S' hS' 0) := by
-  apply GradedRing.GradeZero.subring_isNoetherianRing_of_isNoetherianRing
+  apply GradedRing.GradeZero.isNoetherianRing
 
 noncomputable instance abelian_A'_zero : CategoryTheory.Abelian (FGModuleCat (𝒜' S x S' hS' 0)) :=
-  letI := GradedRing.GradeZero.subring_isNoetherianRing_of_isNoetherianRing $ 𝒜' S x S' hS'
+  letI := GradedRing.GradeZero.isNoetherianRing $ 𝒜' S x S' hS'
   FGModuleCat.abelian_of_noetherian
 
 instance finite_KER : Module.Finite (A' S x S' hS') (KER ℳ x deg_x).toSubmodule :=

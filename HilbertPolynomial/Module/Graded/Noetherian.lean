@@ -6,6 +6,7 @@ Authors: Jujian Zhang
 import HilbertPolynomial.Module.Graded.Homogeneous
 import HilbertPolynomial.missing_lemmas.GradeZeroModule
 
+import Mathlib.RingTheory.GradedAlgebra.Noetherian
 import Mathlib.RingTheory.Noetherian.Basic
 import Mathlib.RingTheory.FiniteType
 import Mathlib.RingTheory.Adjoin.Basic
@@ -13,34 +14,7 @@ import Mathlib.RingTheory.Finiteness.Basic
 import Mathlib.Algebra.Module.GradedModule
 import Mathlib.Algebra.Group.Subgroup.Finite
 
-/-!
-# The properties of a graded Noetherian ring.
-
-This file proves some properties of a graded Noetherian ring:
-1. The 0-th grade of a Noetherian ring is also a Noetherian ring.
-2. For a Noetherian ring `A` which is internally graded by `𝒜`,
-   `⨁_{i>0} 𝒜ᵢ` is finitely generated as an ideal of `A`.
--/
-
-
 namespace GradedRing
-
-section Ring
-
-variable {ι A σ : Type*}
-variable [Ring A] [IsNoetherianRing A]
-variable [DecidableEq ι] [OrderedAddCommMonoid ι] [CanonicallyOrderedAdd ι]
-variable [SetLike σ A] [AddSubgroupClass σ A]
-variable (𝒜 : ι → σ) [GradedRing 𝒜]
-
-/--
-If the internally graded ring `A` is Noetherian, then `𝒜 0` is a Noetherian ring.
--/
-instance GradeZero.subring_isNoetherianRing_of_isNoetherianRing : IsNoetherianRing (𝒜 0) :=
-  isNoetherianRing_of_surjective A (𝒜 0) (GradedRing.projZeroRingHom' 𝒜)
-  (GradedRing.projZeroRingHom'_surjective 𝒜)
-
-end Ring
 
 section CommRing
 
