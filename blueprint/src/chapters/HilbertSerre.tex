@@ -1,4 +1,4 @@
-\chapter{The Hilbert--Serre Theorem}
+\chapter{The Hilbert--Serre Theorem}\label{HilbertSerre}
 
 The statement of the Hilbert--Serre Theorem relies on these assumptions: $A=\oplus_{n=0}^{\infty}{A}_n$ is a Noetherian graded ring, $a_1,\ldots,a_s$ are nonzero homogeneous elements of $A$ of degrees $d_1,\ldots,d_s>0$ such that $A=A_0[a_1,\ldots,a_s]$, and $M=\oplus_{n=0}^{\infty}M_n$ is a finitely generated graded module over $A$. In order to state the Hilbert--Serre Theorem, we need to first prove some preliminary lemmas and define some additional concepts.
 
@@ -40,6 +40,12 @@ Let $R$ be a ring, $C$ be a class of modules over $R$ and $(G,+)$ be an abelian 
 \end{definition}
 
 Additive functions can be viewed as a generalisation of the dimensions of finite-dimensional vector spaces. Indeed, let $F$ be a field. Given any short exact sequence $0\rightarrow{V_1}\rightarrow{V_2}\rightarrow{V_3}\rightarrow{0}$ of finite-dimensional vector spaces over $F$, we have that $V_3$ is isomorphic to $V_2/V_1$, so $\operatorname{dim}(V_1)+\operatorname{dim}(V_3)=\operatorname{dim}(V_2)$ \cite[p23]{Atiyah}.
+
+It is well-known that for any commutative Noetherian ring $R$, the class of finitely generated $R$-modules forms an abelian category. Hence, we decided to formalise the definition of additive functions as the following:
+
+\begin{definition}
+Given an abelian category $\mathcal{C}$ and an additive commutative group $G$, a function $\mu$ from the class of all objects of $\mathcal{C}$ to $G$ is \textbf{additive} if for any short exact sequence $0\rightarrow{A}\rightarrow{B}\rightarrow{C}\rightarrow{0}$ with elements in $\mathcal{C}$, we have $\mu(A)+\mu(C)=\mu(B)$.
+\end{definition}
 
 \begin{definition}
 Let $C$ be the class of all finitely generated modules over $A_0$ and suppose $\mu$ is an additive function on $C$ with values in $\mathbb{Z}$. Then the \textbf{Poincar\'e series} of $M$ in terms of $\mu$ is the formal power series
