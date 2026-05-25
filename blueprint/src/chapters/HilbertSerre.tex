@@ -12,6 +12,7 @@ By definition of a graded ring, the degree-zero component is closed under additi
 
 \begin{lemma}
 \label{gradeifg}
+\uses{gradezeroNoering}
 For any $n\in\{0,1,\ldots\}$, $M_n$ is a finitely generated module over $A_0$.
 \end{lemma}
 \begin{proof}
@@ -39,6 +40,7 @@ where $0$ is the trivial module over $R$.
 
 \begin{definition}
 \label{moduleaddfunc}
+\uses{shortexactseq}
 Let $R$ be a ring, $C$ be a class of modules over $R$ and $(G,+)$ be an abelian group. An \textbf{additive function} on $C$ with values in $G$ is a map $\mu:C\rightarrow{G}$ such that whenever there is a short exact sequence (\ref{shortexaseq}) with $M_1,M_2,M_3\in{C}$, we have that $\mu(M_1)+\mu(M_3)=\mu(M_2)$.
 \end{definition}
 
@@ -53,6 +55,7 @@ Given an abelian category $\mathcal{C}$ and an additive commutative group $G$, a
 
 \begin{definition}
 \label{Poincareser}
+\uses{gradezeroNoering, gradeifg, exactseq, moduleaddfunc, abeliancataddfunc}
 Let $C$ be the class of all finitely generated modules over $A_0$ and suppose $\mu$ is an additive function on $C$ with values in $\mathbb{Z}$. Then the \textbf{Poincar\'e series} of $M$ in terms of $\mu$ is the formal power series
 \begin{equation}
 P(M,\mu,t)=\sum_{n=0}^{\infty}\mu(M_n)t^n.
@@ -63,6 +66,7 @@ Now we are ready to state the Hilbert--Serre Theorem:
 
 \begin{theorem}[Hilbert--Serre]
 \label{HilSer}
+\uses{gradezeroNoering, Poincareser, additivezero, sumeq0ofexact, KLprop, KLfg}
 Let $\mu$ be an additive function on the class of all finitely generated $A_0$-modules with values in $\mathbb{Z}$. Then $P(M,\mu,t)$ can be written as
 \begin{equation}
 \frac{p(t)}{\Pi_{i=1}^s(1-t^{d_i})}
@@ -74,6 +78,7 @@ The Hilbert--Serre Theorem means that some combinatorial phenomenon has occurred
 
 \begin{lemma}
 \label{additivezero}
+\uses{moduleaddfunc, abeliancataddfunc}
 Let $R$ be a ring and let $\mu$ be an additive function on some class of $R$-modules that contains the trivial module $0$. Then $\mu(0)=0$, where the second zero is the identity element of the relative group.
 \end{lemma}
 \begin{proof}
@@ -82,6 +87,7 @@ We have a short exact sequence of $R$-modules $0\rightarrow{0}\rightarrow{0}\rig
 
 \begin{lemma}
 \label{sumeq0ofexact}
+\uses{exactseq, moduleaddfunc, abeliancataddfunc, additivezero}
 Let $R$ be a ring and suppose $\mu$ is an additive function on some class $C$ of $R$-modules. Suppose we have an exact sequence
 \begin{equation}
 0\stackrel{f_1}{\rightarrow}M_1\stackrel{f_2}{\rightarrow}M_2\stackrel{f_3}{\rightarrow}{M_3}\stackrel{f_4}{\rightarrow}{M_4}\stackrel{f_5}{\rightarrow}0,
