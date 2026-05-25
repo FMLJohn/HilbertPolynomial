@@ -4,6 +4,10 @@
 
 In this repository, we have formalised the Hilbert polynomial of a graded module based on the Hilbert--Serre Theorem.
 
+## Build Instruction
+
+## How to Use the Blueprint
+
 ## Preliminary Definitions
 
 1. `AdditiveFunction 𝒞 G`. Given an abelian category `𝒞` and an additive commutative group `G`, a function `λ` from the class of all objects of
