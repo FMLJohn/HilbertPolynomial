@@ -5,6 +5,8 @@ We assume all the assumptions in Chapter \ref{HilbertSerre}, that is, $A=\oplus_
 \begin{theorem}
 \label{Hilpoly}
 \uses{HilSer}
+\lean{HilbertSerre.hilbertPolynomial, HilbertSerre.AdditiveFunction_eq_hilbertPolynomial_eval, HilbertSerre.exists_unique_hilbertPolynomial}
+\leanok
 There exists a unique polynomial $h{\in}\mathbb{Q}[x]$ such that for any $n\in\mathbb{N}$ that is sufficiently large, $\mu(M_n)=h(n)$. This $h$ is called the \textbf{Hilbert polynomial} of $M$ with respect to $\mu$.
 \end{theorem}
 \begin{proof}
@@ -45,6 +47,8 @@ at $n$, so there exists a unique polynomial $h\in\mathbb{Q}[t]$ such that for an
 \begin{theorem}
 \label{Hildeg}
 \uses{Hilpoly}
+\lean{HilbertSerre.natDegree_hilbertPolynomial}
+\leanok
 Let $h$ be the Hilbert polynomial of $M$ with respect to $\mu$.  If $h\neq{0}$, then the degree of $h$ is $s-m-1$, where $m$ is the multiplicity of $1$ in $p(t)$.
 \end{theorem}
 \begin{proof}

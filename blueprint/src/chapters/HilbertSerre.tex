@@ -4,6 +4,8 @@ The statement of the Hilbert--Serre Theorem relies on these assumptions: $A=\opl
 
 \begin{lemma}
 \label{gradezeroNoering}
+\lean{GradedRing.GradeZero.isNoetherianRing}
+\leanok
 $A_0$ is a subring of $A$ which is itself Noetherian.
 \end{lemma}
 \begin{proof}
@@ -13,6 +15,8 @@ By definition of a graded ring, the degree-zero component is closed under additi
 \begin{lemma}
 \label{gradeifg}
 \uses{gradezeroNoering}
+lean{GradedModule.finite_module_over_degree_zero_subring}
+\leanok
 For any $n\in\{0,1,\ldots\}$, $M_n$ is a finitely generated module over $A_0$.
 \end{lemma}
 \begin{proof}
@@ -50,11 +54,15 @@ It is well-known that for any commutative Noetherian ring $R$, the class of fini
 
 \begin{definition}
 \label{abeliancataddfunc}
+\lean{AdditiveFunction}
+\leanok
 Given an abelian category $\mathcal{C}$ and an additive commutative group $G$, a function $\mu$ from the class of all objects of $\mathcal{C}$ to $G$ is \textbf{additive} if for any short exact sequence $0\rightarrow{A}\rightarrow{B}\rightarrow{C}\rightarrow{0}$ with elements in $\mathcal{C}$, we have $\mu(A)+\mu(C)=\mu(B)$.
 \end{definition}
 
 \begin{definition}
 \label{Poincareser}
+\lean{AdditiveFunction.poincareSeries}
+\leanok
 \uses{gradezeroNoering, gradeifg, moduleaddfunc, abeliancataddfunc}
 Let $C$ be the class of all finitely generated modules over $A_0$ and suppose $\mu$ is an additive function on $C$ with values in $\mathbb{Z}$. Then the \textbf{Poincar\'e series} of $M$ in terms of $\mu$ is the formal power series
 \begin{equation}
@@ -67,6 +75,8 @@ Now we are ready to state the Hilbert--Serre Theorem:
 \begin{theorem}[Hilbert--Serre]
 \label{HilSer}
 \uses{gradezeroNoering, Poincareser, additivezero, sumeq0ofexact, KLprop, KLfg}
+\lean{hilbert_serre}
+\leanok
 Let $\mu$ be an additive function on the class of all finitely generated $A_0$-modules with values in $\mathbb{Z}$. Then $P(M,\mu,t)$ can be written as
 \begin{equation}
 \frac{p(t)}{\Pi_{i=1}^s(1-t^{d_i})}
@@ -79,6 +89,8 @@ The Hilbert--Serre Theorem means that some combinatorial phenomenon has occurred
 \begin{lemma}
 \label{additivezero}
 \uses{moduleaddfunc, abeliancataddfunc}
+\lean{AdditiveFunction.map_zero}
+\leanok
 Let $R$ be a ring and let $\mu$ be an additive function on some class of $R$-modules that contains the trivial module $0$. Then $\mu(0)=0$, where the second zero is the identity element of the relative group.
 \end{lemma}
 \begin{proof}
@@ -88,6 +100,8 @@ We have a short exact sequence of $R$-modules $0\rightarrow{0}\rightarrow{0}\rig
 \begin{lemma}
 \label{sumeq0ofexact}
 \uses{exactseq, moduleaddfunc, abeliancataddfunc, additivezero}
+\lean{AdditiveFunction.alternating_sum_apply_eq_zero_of_zero_zero_of_length6'}
+\leanok
 Let $R$ be a ring and suppose $\mu$ is an additive function on some class $C$ of $R$-modules. Suppose we have an exact sequence
 \begin{equation}
 0\stackrel{f_1}{\rightarrow}M_1\stackrel{f_2}{\rightarrow}M_2\stackrel{f_3}{\rightarrow}{M_3}\stackrel{f_4}{\rightarrow}{M_4}\stackrel{f_5}{\rightarrow}0,
