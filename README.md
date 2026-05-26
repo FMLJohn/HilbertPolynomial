@@ -6,8 +6,7 @@ In this repository, we have formalised the Hilbert polynomial of a graded module
 
 ## Build Instructions
 
-1. Ensure that `git` is installed. If it is not already installed, see:
-https://git-scm.com/downloads
+1. Ensure that `git` is installed. If it is not already installed, see: https://git-scm.com/downloads
 2. Install Lean 4 via `elan`: https://lean-lang.org/install/
 3. Clone the repository:
 ```
