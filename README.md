@@ -66,42 +66,41 @@ From now on, assume that `hS : (i : S.toFinset) → S.deg i.2 = 1`.
 
 ## Structure of the Repository
 
-### `HilbertPolynomial.lean` (root, ~13 lines)
+### `HilbertPolynomial.lean` (root)
 The entry-point file. It imports every module in the project and re-exports the whole library as a single unit.
 
 ### `AuxiliaryLemmas/`
 Auxiliary lemmas.
-
-- **`FGModuleCat.lean`** (~204 lines) — Constructs a category equivalence `FGModuleCat R ≌ FGModuleCat S` for any ring isomorphism `R ≃+* S`, and shows that `FGModuleCat R` has finite limits when `R` is Noetherian.
-- **`GradedModule.lean`** (~230 lines) — Defines projection maps for internally graded modules (`GradedModule.proj`) and proves how they interact with the graded scalar action.
-- **`GradeZeroModule.lean`** (~48 lines) — Shows that each graded piece `ℳ i` of a graded `A`-module is a module over the degree-zero subring `𝒜 0`, and that the grade-zero action is compatible with scalar multiplication.
+- **`FGModuleCat.lean`** — Constructing a category equivalence `FGModuleCat R ≌ FGModuleCat S` for any ring isomorphism `R ≃+* S`, and shows that `FGModuleCat R` has finite limits when `R` is Noetherian.
+- **`GradedModule.lean`** — Defining projection maps for internally graded modules (`GradedModule.proj`) and proves how they interact with the graded scalar action.
+- **`GradeZeroModule.lean`** — Showing that each graded piece `ℳ i` of a graded `A`-module is a module over the degree-zero subring `𝒜 0`, and that the grade-zero action is compatible with scalar multiplication.
 
 ### `Module/FGModuleCat/`
-Establishes that `FGModuleCat R` is an abelian category when `R` is Noetherian.
+Establishing that `FGModuleCat R` is an abelian category when `R` is Noetherian.
 
-- **`EpiMono.lean`** (~81 lines) — Proves that monomorphisms in `FGModuleCat` are precisely injective linear maps, and epimorphisms are precisely surjective ones.
-- **`Kernels.lean`** (~129 lines) — Constructs concrete kernels and cokernels in `FGModuleCat` (with explicit limit/colimit cones).
-- **`Abelian.lean`** (~232 lines) — Combines the above: every mono is normal, every epi is normal, hence `FGModuleCat R` is abelian. Also constructs image factorisations and proves the exactness criterion `exact_iff`.
+- **`EpiMono.lean`** — Proving that monomorphisms in `FGModuleCat` are precisely injective linear maps, and epimorphisms are precisely surjective ones.
+- **`Kernels.lean`** — Constructing concrete kernels and cokernels in `FGModuleCat` (with explicit limit/colimit cones).
+- **`Abelian.lean`** — Combining the above: every mono is normal, every epi is normal, hence `FGModuleCat R` is abelian. Also constructs image factorisations and proves the exactness criterion `exact_iff`.
 
 ### `Module/Graded/`
 Infrastructure for graded rings and modules.
 
-- **`Homogeneous.lean`** (~1164 lines) — Defines homogeneous submodules, subrings, and ideals of a graded module, along with their operations: intersection, quotient, hull, core; proves they form a complete lattice.
-- **`Grading.lean`** (~491 lines) — Shows that homogeneous subrings and homogeneous submodules inherit a graded structure, and that the quotient of a graded module by a homogeneous submodule is again graded.
-- **`Noetherian.lean`** (~753 lines) — Introduces `HomogeneousGeneratingSetOf` and proves the key finiteness theorems: a finitely generated graded module over a graded Noetherian ring is finitely generated over the degree-zero subring; the degree-zero subring is itself Noetherian.
+- **`Homogeneous.lean`** — Defining homogeneous submodules, subrings, and ideals of a graded module, along with their operations: intersection, quotient, hull, core; proves they form a complete lattice.
+- **`Grading.lean`** — Showing that homogeneous subrings and homogeneous submodules inherit a graded structure, and that the quotient of a graded module by a homogeneous submodule is again graded.
+- **`Noetherian.lean`** — Introducing `HomogeneousGeneratingSetOf` and proves the key finiteness theorems: a finitely generated graded module over a graded Noetherian ring is finitely generated over the degree-zero subring; the degree-zero subring is itself Noetherian.
 
 ### `HilbertSerre/`
 The proof of the Hilbert–Serre theorem.
 
-- **`AdditiveFunction.lean`** (~451 lines) — Defines `AdditiveFunction 𝒞 G` (notation `𝒞 ⟹+ G`): a function `μ : 𝒞 → G` satisfying `μ B = μ A + μ C` for every short exact sequence `0 → A → B → C → 0`. Proves `μ(0) = 0`, invariance under isomorphism, kernel/image/cokernel identities, the alternating-sum formula for any exact sequence of length 6, and that `𝒞 ⟹+ G` is itself an abelian group.
-- **`FiniteInstances.lean`** (~275 lines) — Two finiteness lemmas used in the inductive step: (1) adjoining a finite set to a Noetherian ring yields a Noetherian ring; (2) a finite module annihilated by an element `s` remains finite after restricting scalars to the ring without `s`.
-- **`Theorem.lean`** (~1077 lines) — The Hilbert–Serre theorem itself. Defines the Poincaré series `μ.poincareSeries 𝒜 ℳ ∈ ℤ⟦X⟧`, the structure `generatingSetOverBaseRing 𝒜`, and the poles `∏ᵢ (1 − Xᵈⁱ)`. The proof proceeds by induction on the number of generators: the base case (empty generator set) reduces to a truncated power series; the inductive step uses the exact sequence `0 → Kₙ → Mₙ → M_{n+d} → Lₙ → 0` together with the alternating-sum formula and the induction hypothesis applied to both the kernel module `K` and the cokernel module `L`.
+- **`AdditiveFunction.lean`** — Defining additive functions on abelian categories and proving related results.
+- **`FiniteInstances.lean`** — Two finiteness lemmas used in the inductive step: (1) adjoining a finite set to a Noetherian ring yields a Noetherian ring; (2) a finite module annihilated by an element `s` remains finite after restricting scalars to the ring without `s`.
+- **`Theorem.lean`** — The Hilbert–Serre theorem itself. Defines the Poincaré series `μ.poincareSeries 𝒜 ℳ ∈ ℤ⟦X⟧`, the structure `generatingSetOverBaseRing 𝒜`, and the poles `∏ᵢ (1 − Xᵈⁱ)`. The proof proceeds by induction on the number of generators: the base case (empty generator set) reduces to a truncated power series; the inductive step uses the exact sequence `0 → Kₙ → Mₙ → M_{n+d} → Lₙ → 0` together with the alternating-sum formula and the induction hypothesis applied to both the kernel module `K` and the cokernel module `L`.
 
-### `HilbertPolynomial/HilbertPolynomial.lean` (~127 lines)
+### `HilbertPolynomial/HilbertPolynomial.lean`
 Defines the Hilbert polynomial and proves its key properties.
 
-- **`numeratorPolynomial`** — Extracts the numerator polynomial `p ∈ ℤ[X]` from the Hilbert–Serre theorem.
-- **`hilbertPolynomial`** — Defines the Hilbert polynomial `h ∈ ℚ[X]` as `hilbertPoly(p̄, |S|)`, where `p̄` is `p` cast to `ℚ[X]` and `|S|` is the number of generators.
+- **`numeratorPolynomial`** — Extracting the numerator polynomial `p ∈ ℤ[X]` from the Hilbert–Serre theorem.
+- **`hilbertPolynomial`** — Defining the Hilbert polynomial `h ∈ ℚ[X]` as `hilbertPoly(p̄, |S|)`, where `p̄` is `p` cast to `ℚ[X]` and `|S|` is the number of generators.
 - **`AdditiveFunction_eq_hilbertPolynomial_eval`** — The key property: for all sufficiently large `n`, `μ(ℳ n) = h(n)`.
 - **`exists_unique_hilbertPolynomial`** — Uniqueness: any polynomial with the above eventual-equality property must equal `h`.
 - **`natDegree_hilbertPolynomial`** — Degree formula: if `h ≠ 0`, then `deg h = |S| − rootMultiplicity(p, 1) − 1`.
