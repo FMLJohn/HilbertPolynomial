@@ -69,7 +69,7 @@ From now on, assume that `hS : (i : S.toFinset) → S.deg i.2 = 1`.
 ### `HilbertPolynomial.lean` (root)
 The entry-point file. It imports every module in the project and re-exports the whole library as a single unit.
 
-### `missing_lemmas/`
+### `AuxiliaryLemmas/`
 Auxiliary lemmas that were missing from Mathlib at the time of writing.
 
 - **`FGModuleCat.lean`** — Helper definitions for the category `FGModuleCat` of finitely generated modules, including `asHom` (turning a linear map into a categorical arrow) and exactness criteria used throughout the proof.
