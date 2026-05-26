@@ -11,7 +11,7 @@ import Mathlib.Algebra.Category.ModuleCat.Products
 import Mathlib.CategoryTheory.Limits.Constructions.LimitsOfProductsAndEqualizers
 
 /-!
-# Some missing lemmas about the category of finitely generated modules over a Noetherian ring
+# Some auxiliary lemmas about the category of finitely generated modules over a Noetherian ring
 -/
 
 universe u v
