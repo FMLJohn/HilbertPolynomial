@@ -4,7 +4,24 @@
 
 In this repository, we have formalised the Hilbert polynomial of a graded module based on the Hilbert--Serre Theorem.
 
-## Build Instruction
+## Build Instructions
+
+1. Ensure that `git` is installed. If it is not already installed, see:
+https://git-scm.com/downloads
+2. Install Lean 4 via `elan`: https://lean-lang.org/install/
+3. Clone the repository:
+```
+git clone https://github.com/FMLJohn/HilbertPolynomial.git
+cd HilbertPolynomial
+```
+4. Fetch the Mathlib build cache:
+```
+lake exe cache get
+```
+5. Build the project
+```
+lake build HilbertPolynomial
+```
 
 ## How to Use the Blueprint
 
