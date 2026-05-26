@@ -78,7 +78,7 @@ theorem AdditiveFunction_eq_hilbertPolynomial_eval
   have heq1 : μ.toFun (FGModuleCat.of (𝒜 0) (ℳ n)) = coeff ℤ n (μ.poincareSeries 𝒜 ℳ) :=
     (μ.coeff_poincareSeries 𝒜 ℳ n).symm
   have heq2 : (PowerSeries.map (Int.castRingHom ℚ)) (numeratorPolynomial ℳ μ S) =
-      Polynomial.map (Int.castRingHom ℚ) (numeratorPolynomial ℳ μ S) := by
+      (numeratorPolynomial ℳ μ S).map (Int.castRingHom ℚ) := by
     ext n
     simp only [PowerSeries.coeff_map, coeff_coe, eq_intCast, polynomial_map_coe]
   have heq3 : map (Int.castRingHom ℚ) ↑S.poles⁻¹ = invOneSubPow ℚ S.toFinset.card := by
