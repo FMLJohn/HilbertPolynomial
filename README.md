@@ -24,7 +24,7 @@ lake build HilbertPolynomial
 
 ## How to Use the Blueprint
 
-The blueprint is a human-readable mathematical write-up of the formalisation.
+The blueprint provides a structured roadmap of the formalization project, outlining the main definitions, theorems, dependencies, and overall proof architecture in Lean.
 - [Blueprint (web)](https://FMLJohn.github.io/HilbertPolynomial/blueprint/)
 - [Blueprint (PDF)](https://FMLJohn.github.io/HilbertPolynomial/blueprint.pdf)
 - [Dependency graph](https://FMLJohn.github.io/HilbertPolynomial/blueprint/dep_graph_document.html)
