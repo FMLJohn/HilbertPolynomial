@@ -75,9 +75,8 @@ theorem AdditiveFunction_eq_hilbertPolynomial_eval
     {n : ℕ} (hn : (numeratorPolynomial ℳ μ S).natDegree < n) :
     μ.toFun (FGModuleCat.of (𝒜 0) (ℳ n)) = (hilbertPolynomial ℳ μ S).eval (n : ℚ) := by
   change Int.castRingHom ℚ _ = _
-  have heq1 : μ.toFun (FGModuleCat.of (𝒜 0) (ℳ n)) = coeff ℤ n (μ.poincareSeries 𝒜 ℳ) := by
-    rw [poincareSeries, coeff_mk]
-    rfl
+  have heq1 : μ.toFun (FGModuleCat.of (𝒜 0) (ℳ n)) = coeff ℤ n (μ.poincareSeries 𝒜 ℳ) :=
+    (μ.coeff_poincareSeries 𝒜 ℳ n).symm
   have heq2 : (PowerSeries.map (Int.castRingHom ℚ)) (numeratorPolynomial ℳ μ S) =
       Polynomial.map (Int.castRingHom ℚ) (numeratorPolynomial ℳ μ S) := by
     ext n

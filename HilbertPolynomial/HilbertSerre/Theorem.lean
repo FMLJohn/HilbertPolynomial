@@ -45,13 +45,12 @@ category of finitely generated `A₀`-module, its Poincaré series is defined as
 `∑ᵢ μ(Mᵢ) Xⁱ ∈ ℤ⟦X⟧`.
 -/
 def poincareSeries : ℤ⟦X⟧ :=
-  PowerSeries.mk fun n ↦ μ <| .of _ <| (ℳ n : Type u)
+  PowerSeries.mk fun n ↦ μ (FGModuleCat.of (𝒜 0) (ℳ n))
 
 lemma coeff_poincareSeries (n : ℕ) :
     PowerSeries.coeff _ n (μ.poincareSeries 𝒜 ℳ) = μ (.of _ <| ℳ n) := by
   delta poincareSeries
   rw [coeff_mk]
-
 
 lemma map_subsingleton (x : FGModuleCat (𝒜 0)) [subsingleton : Subsingleton x] : μ x = 0 :=
   μ.eq_of_iso (IsZero.iso
