@@ -22,14 +22,6 @@ variable {R : Type u} [Ring R]
 
 namespace FGModuleCat
 
-/-- Interpret a linear map as an arrow in the category of finitely-generated modules.-/
-def asHom
-    {M N : Type u} [AddCommGroup M] [AddCommGroup N]
-    [Module R M] [Module R N] [Module.Finite R M] [Module.Finite R N]
-    (l : M →ₗ[R] N) :
-  FGModuleCat.of R M ⟶ FGModuleCat.of R N :=
-  FGModuleCat.ofHom l
-
 section Equivalence
 
 variable {R S : Type u} [CommRing R] [CommRing S] (e : R ≃+* S)

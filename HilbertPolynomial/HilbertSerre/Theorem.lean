@@ -497,9 +497,9 @@ noncomputable def anExactSeq (i : ℕ) (ineq : d ≤ i) : ComposableArrows (FGMo
     (0 : 0 ⟶ FGModuleCat.of _ <| (KER ℳ x deg_x).grading (i - d))
     (FGModuleCat.ofHom (KER.componentEmb ℳ x deg_x (i - d)) :
       FGModuleCat.of _ ((KER ℳ x deg_x).grading (i - d)) ⟶ FGModuleCat.of _ (ℳ (i - d)))
-    (FGModuleCat.asHom (smulBy ℳ x deg_x (i - d)) ≫ (reindex ℳ i ineq).toFGModuleCatIso.hom :
+    (FGModuleCat.ofHom (smulBy ℳ x deg_x (i - d)) ≫ (reindex ℳ i ineq).toFGModuleCatIso.hom :
       FGModuleCat.of _ (ℳ (i - d)) ⟶ FGModuleCat.of _ (ℳ i))
-    (FGModuleCat.asHom (COKER.descComponent ℳ x deg_x i) :
+    (FGModuleCat.ofHom (COKER.descComponent ℳ x deg_x i) :
       FGModuleCat.of _ (ℳ i) ⟶ FGModuleCat.of _ ((COKER.den ℳ x deg_x).quotientGrading i))
     (0 : FGModuleCat.of _ ((COKER.den ℳ x deg_x).quotientGrading i) ⟶ 0)
 
