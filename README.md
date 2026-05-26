@@ -69,10 +69,10 @@ From now on, assume that `hS : (i : S.toFinset) → S.deg i.2 = 1`.
 ### `HilbertPolynomial.lean` (root)
 The entry-point file. It imports every module in the project and re-exports the whole library as a single unit.
 
-### `missing_lemmas/`
-Auxiliary lemmas that were missing from Mathlib at the time of writing.
+### `AuxiliaryLemmas/`
+Auxiliary lemmas.
 
-- **`FGModuleCat.lean`** — Helper definitions for the category `FGModuleCat` of finitely generated modules, including `asHom` (turning a linear map into a categorical arrow) and exactness criteria used throughout the proof.
+- **`FGModuleCat.lean`** — Exactness criteria used throughout the proof.
 - **`GradedModule.lean`** — Projection maps for internally graded modules (`GradedModule.proj`).
 - **`GradeZeroModule.lean`** — Shows that each graded piece `ℳ i` of a graded `A`-module is a module over the degree-zero subring `𝒜 0`, and that the grade-zero action is compatible with scalar multiplication.
 
