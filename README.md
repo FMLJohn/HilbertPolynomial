@@ -72,7 +72,7 @@ The entry-point file. It imports every module in the project and re-exports the 
 ### `AuxiliaryLemmas/`
 Auxiliary lemmas.
 
-- **`FGModuleCat.lean`** — Helper definitions for the category `FGModuleCat` of finitely generated modules, including `asHom` (turning a linear map into a categorical arrow) and exactness criteria used throughout the proof.
+- **`FGModuleCat.lean`** — Exactness criteria used throughout the proof.
 - **`GradedModule.lean`** — Projection maps for internally graded modules (`GradedModule.proj`).
 - **`GradeZeroModule.lean`** — Shows that each graded piece `ℳ i` of a graded `A`-module is a module over the degree-zero subring `𝒜 0`, and that the grade-zero action is compatible with scalar multiplication.
 
