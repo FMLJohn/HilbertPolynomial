@@ -3,7 +3,7 @@ Copyright (c) 2021 Jujian Zhang. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Jujian Zhang, Eric Wieser
 -/
-import HilbertPolynomial.missing_lemmas.GradedModule
+import HilbertPolynomial.AuxiliaryLemmas.GradedModule
 
 import Mathlib.RingTheory.Ideal.Operations
 import Mathlib.RingTheory.Ideal.Maps

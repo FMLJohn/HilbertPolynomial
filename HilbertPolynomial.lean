@@ -7,7 +7,7 @@ import HilbertPolynomial.Module.FGModuleCat.Kernels
 import HilbertPolynomial.Module.Graded.Grading
 import HilbertPolynomial.Module.Graded.Homogeneous
 import HilbertPolynomial.Module.Graded.Noetherian
-import HilbertPolynomial.missing_lemmas.FGModuleCat
-import HilbertPolynomial.missing_lemmas.GradeZeroModule
-import HilbertPolynomial.missing_lemmas.GradedModule
+import HilbertPolynomial.AuxiliaryLemmas.FGModuleCat
+import HilbertPolynomial.AuxiliaryLemmas.GradeZeroModule
+import HilbertPolynomial.AuxiliaryLemmas.GradedModule
 import HilbertPolynomial.HilbertPolynomial

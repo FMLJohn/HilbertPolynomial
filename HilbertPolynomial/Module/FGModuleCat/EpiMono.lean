@@ -8,7 +8,7 @@ import Mathlib.CategoryTheory.ConcreteCategory.EpiMono
 import Mathlib.Algebra.Category.FGModuleCat.Basic
 import Mathlib.RingTheory.Noetherian.Basic
 
-import HilbertPolynomial.missing_lemmas.FGModuleCat
+import HilbertPolynomial.AuxiliaryLemmas.FGModuleCat
 
 /-!
 # Monomorphisms in finitely generated modules over a Noetherian ring

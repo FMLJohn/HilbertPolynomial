@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Jujian Zhang
 -/
 import HilbertPolynomial.Module.Graded.Homogeneous
-import HilbertPolynomial.missing_lemmas.GradeZeroModule
+import HilbertPolynomial.AuxiliaryLemmas.GradeZeroModule
 
 import Mathlib.RingTheory.GradedAlgebra.Noetherian
 import Mathlib.RingTheory.Noetherian.Basic
