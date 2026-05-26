@@ -24,6 +24,12 @@ lake build HilbertPolynomial
 
 ## How to Use the Blueprint
 
+The blueprint is a human-readable mathematical write-up of the formalisation.
+- [Blueprint (web)](https://FMLJohn.github.io/HilbertPolynomial/blueprint/)
+- [Blueprint (PDF)](https://FMLJohn.github.io/HilbertPolynomial/blueprint.pdf)
+- [Dependency graph](https://FMLJohn.github.io/HilbertPolynomial/blueprint/dep_graph_document.html)
+- [API documentation](https://FMLJohn.github.io/HilbertPolynomial/docs/)
+
 ## Preliminary Definitions
 
 1. `AdditiveFunction 𝒞 G`. Given an abelian category `𝒞` and an additive commutative group `G`, a function `λ` from the class of all objects of
