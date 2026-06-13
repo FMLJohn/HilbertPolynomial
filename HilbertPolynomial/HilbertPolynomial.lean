@@ -46,31 +46,25 @@ namespace HilbertSerre
 
 variable {𝒜}
 
-/--
-Remember the Hilbert Serre Theorem (`hilbert_serre`), which says that there exists some
-`p : ℤ[X]` such that `μ.poincareSeries 𝒜 ℳ = p • S.poles⁻¹`. This definition is the
-polynomial `p` guaranteed by `hilbert_serre`.
--/
+/-- Remember the Hilbert Serre Theorem (`hilbert_serre`), which says that there exists some
+`p : ℤ[X]` such that `μ.poincareSeries 𝒜 ℳ = p • S.poles⁻¹`. This definition is the polynomial
+`p` guaranteed by `hilbert_serre`. -/
 noncomputable def numeratorPolynomial : Polynomial ℤ := (hilbert_serre 𝒜 ℳ μ S).choose
 
 theorem numeratorPolynomial_mul_inv_poles_eq_poincareSeries :
     (numeratorPolynomial ℳ μ S).toPowerSeries * S.poles⁻¹ = μ.poincareSeries 𝒜 ℳ :=
   (hilbert_serre 𝒜 ℳ μ S).choose_spec.symm
 
-/--
-The Hilbert polynomial, i.e. the polynomial such that for any `n : ℕ` which
-is big enough, the value of `μ` at `ℳ n` is equal to its value at `n`.
--/
+/-- The Hilbert polynomial, i.e. the polynomial such that for any `n : ℕ` which is big enough,
+the value of `μ` at `ℳ n` is equal to its value at `n`. -/
 noncomputable def hilbertPolynomial : Polynomial ℚ :=
   ((numeratorPolynomial ℳ μ S).map (Int.castRingHom ℚ)).hilbertPoly S.toFinset.card
 
 variable {S}
 
 include hS in
-/--
-The key property of the Hilbert polynomial, i.e. for any `n : ℕ` that is large enough,
-the value of `μ` at `ℳ n` is equal to the value of the Hilbert polynomial at `n`.
--/
+/-- The key property of the Hilbert polynomial, i.e. for any `n : ℕ` that is large enough,
+the value of `μ` at `ℳ n` is equal to the value of the Hilbert polynomial at `n`. -/
 theorem AdditiveFunction_eq_hilbertPolynomial_eval
     {n : ℕ} (hn : (numeratorPolynomial ℳ μ S).natDegree < n) :
     μ.toFun (FGModuleCat.of (𝒜 0) (ℳ n)) = (hilbertPolynomial ℳ μ S).eval (n : ℚ) := by
@@ -96,11 +90,9 @@ theorem AdditiveFunction_eq_hilbertPolynomial_eval
   exact lt_of_le_of_lt natDegree_map_le hn
 
 include hS in
-/--
-The Hilbert polynomial is unique. In other words, for any `h : ℚ[X]`, if `h` satisfies the key
+/-- The Hilbert polynomial is unique. In other words, for any `h : ℚ[X]`, if `h` satisfies the key
 property of the Hilbert polynomial (i.e. for any large enough `n : ℕ`, the value of `μ` at `ℳ n`
-equals the value of `h` at `n`), then `h` is the Hilbert polynomial itself.
--/
+equals the value of `h` at `n`), then `h` is the Hilbert polynomial itself. -/
 theorem exists_unique_hilbertPolynomial :
     ∃! h : Polynomial ℚ, ∃ N : ℕ, ∀ n > N,
     μ.toFun (FGModuleCat.of (𝒜 0) (ℳ n)) = h.eval (n : ℚ) := by
@@ -115,9 +107,7 @@ theorem exists_unique_hilbertPolynomial :
     simp only [Set.mem_Ioi, sup_lt_iff, Set.mem_setOf_eq] at hn ⊢
     rw [← AdditiveFunction_eq_hilbertPolynomial_eval ℳ μ hS hn.2, hhN n hn.1]
 
-/--
-This theorem tells us the specific degree of any non-zero Hilbert polynomial.
--/
+/-- This theorem tells us the specific degree of any non-zero Hilbert polynomial. -/
 theorem natDegree_hilbertPolynomial (hhP : hilbertPolynomial ℳ μ S ≠ 0) :
     (hilbertPolynomial ℳ μ S).natDegree =
     S.toFinset.card - (numeratorPolynomial ℳ μ S).rootMultiplicity 1 - 1 := by
