@@ -21,20 +21,15 @@ variable [AddCommMonoid M] [Module A M] [SetLike σ M] [AddSubmonoidClass σ' A]
 
 namespace GradedModule
 
-
-/--
-The projection map of an internally graded module.
--/
+/-- The projection map of an internally graded module. -/
 @[simps]
 def proj [DecidableEq ιM] [Decomposition 𝓜]  (i : ιM) : M →+ M where
   toFun m := decompose 𝓜 m i
   map_zero' := by simp
   map_add' := by simp
 
-/--
-For each `a : M`, `GradedModule.homogeneousComponents ℳ a` is the collection of the
-homogeneous components of `a`, which is a finite subset of `M`.
--/
+/-- For each `a : M`, `GradedModule.homogeneousComponents ℳ a` is the collection of the
+homogeneous components of `a`, which is a finite subset of `M`. -/
 def homogeneousComponents [DecidableEq ιM] [Decomposition 𝓜] [DecidableEq M] (a : M) : Finset M :=
   (decompose 𝓜 a).support.image (decompose 𝓜 a ·)
 
@@ -54,9 +49,7 @@ variable [GradedRing 𝒜] [DirectSum.Decomposition ℳ] [SetLike.GradedSMul �
 
 lemma proj_smul_mem_right {i j : ℕ} (a : A) (m : M) (hm : m ∈ ℳ i) :
     GradedModule.proj ℳ j (a • m) =
-    if i ≤ j
-    then GradedRing.proj 𝒜 (j - i) a • m
-    else 0 := by
+    if i ≤ j then GradedRing.proj 𝒜 (j - i) a • m else 0 := by
   classical
   letI := isModule 𝒜 ℳ
   rw [← DirectSum.sum_support_decompose ℳ (a • m), map_sum, Finset.sum_eq_single j,
@@ -66,7 +59,6 @@ lemma proj_smul_mem_right {i j : ℕ} (a : A) (m : M) (hm : m ∈ ℳ i) :
   pick_goal 2
   · intro hj
     simpa using hj
-
   have eq0 : decompose ℳ (a • m) = a • decompose ℳ m := (linearEquiv 𝒜 ℳ).1.map_smul a m
   rw [eq0]
   show ((DirectSum.decompose 𝒜 a • DirectSum.decompose ℳ m) j : M) = _
@@ -74,8 +66,7 @@ lemma proj_smul_mem_right {i j : ℕ} (a : A) (m : M) (hm : m ∈ ℳ i) :
     ← DirectSum.sum_support_decompose 𝒜 a, DirectSum.decompose_sum,
     Finset.sum_smul, DirectSum.decompose_sum]
   simp_rw [Finset.smul_sum]
-  have eq1 (k : ℕ) :
-    ∑ j ∈ (decompose ℳ m).support,
+  have eq1 (k : ℕ) : ∑ j ∈ (decompose ℳ m).support,
       (decompose 𝒜 (decompose 𝒜 a k)) • decompose ℳ (decompose ℳ m j) =
     decompose 𝒜 (decompose 𝒜 a k) • decompose ℳ m := by
     rw [Finset.sum_eq_single i, decompose_of_mem_same ℳ hm]
@@ -87,7 +78,6 @@ lemma proj_smul_mem_right {i j : ℕ} (a : A) (m : M) (hm : m ∈ ℳ i) :
   simp_rw [eq1]
   lift m to ℳ i using hm
   simp_rw [decompose_coe, DirectSum.Gmodule.of_smul_of, vadd_eq_add]
-
   split_ifs with h
   · rw [DFinsupp.finset_sum_apply, Finset.sum_eq_single (j - i), DirectSum.coe_of_apply,
       if_pos (Nat.sub_add_cancel h)]
@@ -96,13 +86,11 @@ lemma proj_smul_mem_right {i j : ℕ} (a : A) (m : M) (hm : m ∈ ℳ i) :
       rw [of_eq_of_ne]
       contrapose! hn2
       exact Nat.sub_eq_of_eq_add hn2.symm |>.symm
-
     · intro H
       ext
       simp only [DFinsupp.mem_support_toFun, ne_eq, not_not] at H
       rw [H, Gmodule.zero_smul, coe_of_apply, if_pos (Nat.sub_add_cancel h)]
       rfl
-
   · rw [DFinsupp.finset_sum_apply]
     push_cast
     simp_rw [coe_of_apply]
@@ -115,13 +103,10 @@ lemma proj_smul_mem_right {i j : ℕ} (a : A) (m : M) (hm : m ∈ ℳ i) :
 
 lemma proj_smul_mem_left {i j : ℕ} (a : A) (m : M) (ha : a ∈ 𝒜 i) :
     GradedModule.proj ℳ j (a • m) =
-    if i ≤ j
-    then a • GradedModule.proj ℳ (j - i) m
-    else 0 := by
+    if i ≤ j then a • GradedModule.proj ℳ (j - i) m else 0 := by
   by_cases a_ne_zero : a = 0
   · subst a_ne_zero
     rw [zero_smul, zero_smul, map_zero, ite_self]
-
   classical
   letI := isModule 𝒜 ℳ
   rw [← DirectSum.sum_support_decompose ℳ (a • m), map_sum, Finset.sum_eq_single j,
@@ -131,16 +116,13 @@ lemma proj_smul_mem_left {i j : ℕ} (a : A) (m : M) (ha : a ∈ 𝒜 i) :
   pick_goal 2
   · intro hj
     simpa using hj
-
   have eq0 : decompose ℳ (a • m) = a • decompose ℳ m := (linearEquiv 𝒜 ℳ).1.map_smul a m
   rw [eq0]
   show ((DirectSum.decompose 𝒜 a • DirectSum.decompose ℳ m) j : M) = _
   conv_lhs => rw [← DirectSum.sum_support_decompose ℳ m,
     ← DirectSum.sum_support_decompose 𝒜 a, DirectSum.decompose_sum,
     Finset.sum_smul, DirectSum.decompose_sum]
-
   simp_rw [Finset.smul_sum]
-
   rw [calc _
     _ = ((∑ i ∈ (decompose 𝒜 a).support, ∑ j ∈ (decompose ℳ m).support,
           decompose 𝒜 (decompose 𝒜 a i) • decompose ℳ (decompose ℳ m j)) j : M) := rfl
@@ -175,7 +157,6 @@ lemma proj_smul_mem_left {i j : ℕ} (a : A) (m : M) (ha : a ∈ 𝒜 i) :
     subst hi
     simp_rw [decompose_zero, DirectSum.zero_apply, ZeroMemClass.coe_zero, zero_smul]
     rw [ite_self, Finset.sum_const_zero]
-
   by_cases hj : j - i ∈ (decompose ℳ m).support
   pick_goal 2
   · simp only [DFinsupp.mem_support_toFun, ne_eq, not_not, Subtype.ext_iff,
@@ -198,7 +179,6 @@ lemma proj_smul_mem_left {i j : ℕ} (a : A) (m : M) (ha : a ∈ 𝒜 i) :
     · simp only [not_le] at ineq
       exfalso
       omega
-
   split_ifs with ineq
   · trans ∑ ik ∈ {(i, j - i)}, (decompose 𝒜 a ik.1 : A) • (decompose ℳ m ik.2 : M)
     · refine Finset.sum_congr ?_ fun _ _ ↦ rfl

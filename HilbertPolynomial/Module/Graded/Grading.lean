@@ -35,21 +35,17 @@ namespace HomogeneousSubring
 variable {𝒜}
 variable (A' : HomogeneousSubring 𝒜)
 
-/--
-If `A` is a graded ring and `A'` a homogeneous subring, then `A'` is also graded whose degree `i`
-part is `Aᵢ ∩ A'`.
--/
-def grading (i : ιA) : AddSubgroup A' :=
-  (AddSubgroup.ofClass (𝒜 i)).comap A'.subtype
+/-- If `A` is a graded ring and `A'` a homogeneous subring, then `A'` is also graded whose degree
+`i` part is `Aᵢ ∩ A'`. -/
+def grading (i : ιA) : AddSubgroup A' := (AddSubgroup.ofClass (𝒜 i)).comap A'.subtype
 
 variable [(i : ιA) → (x : 𝒜 i) → Decidable (x ≠ 0)] [∀ a : A, Decidable (a ∈ A')]
 
-/--
-Then `A' ≃ ⨁ᵢ Aᵢ ∩ A` by `a ↦ i ↦ aᵢ`. This is well-defined because `A'` is a homogeneoeus subring.
--/
+/-- Then `A' ≃ ⨁ᵢ Aᵢ ∩ A` by `a ↦ i ↦ aᵢ`. This is well-defined because `A'` is a
+homogeneoeus subring. -/
 protected def grading.decompose (a : A') : ⨁ i, A'.grading i :=
   ∑ i ∈ (decompose 𝒜 a).support,
-  .of _ (i : ιA) ⟨⟨decompose 𝒜 a i, A'.2 i a.2⟩, SetLike.coe_mem _⟩
+    .of _ (i : ιA) ⟨⟨decompose 𝒜 a i, A'.2 i a.2⟩, SetLike.coe_mem _⟩
 
 set_option linter.unusedSectionVars false
 
@@ -60,10 +56,8 @@ lemma grading.decompose_zero : grading.decompose A' 0 = 0 := by
 
 lemma grading.decompose_apply (a : A') (j : ιA) :
     (grading.decompose A' a j : A) = decompose 𝒜 a j := by
-  delta grading.decompose
-  simp only
   erw [DFinsupp.finset_sum_apply,  AddSubmonoidClass.coe_finset_sum,
-      AddSubmonoidClass.coe_finset_sum]
+    AddSubmonoidClass.coe_finset_sum]
   simp_rw [DirectSum.coe_of_apply]
   calc _
     _ = ∑ i ∈ (decompose 𝒜 (a : A)).support,

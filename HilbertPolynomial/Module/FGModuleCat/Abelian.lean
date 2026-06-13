@@ -28,9 +28,7 @@ namespace FGModuleCat
 
 variable {M N : FGModuleCat R} (f : M ⟶ N)
 
-/--
-A monomorphism between finitely generated modules is a normal monomorphism
--/
+/-- A monomorphism between finitely generated modules is a normal monomorphism. -/
 noncomputable def normalMono (hf : Mono f) : NormalMono f where
   Z := of R (N ⧸ LinearMap.range f.hom)
   g := FGModuleCat.ofHom <| f.hom.range.mkQ
@@ -42,9 +40,7 @@ noncomputable def normalMono (hf : Mono f) : NormalMono f where
           (LinearMap.quotKerEquivRange f.hom ≪≫ₗ
           LinearEquiv.ofEq _ _ (Submodule.ker_mkQ _).symm))) <| by ext; rfl
 
-/--
-An epimorphism between finitely generated modules is a normal epimorphism
--/
+/-- An epimorphism between finitely generated modules is a normal epimorphism. -/
 noncomputable def normalEpi (hf : Epi f) : NormalEpi f where
   W := of R (LinearMap.ker f.hom)
   g := FGModuleCat.ofHom <| (LinearMap.ker f.hom).subtype
@@ -90,9 +86,7 @@ noncomputable def imageFactorisation {M N : FGModuleCat R} (f : M ⟶ N) : Image
   F :=
   { I := .of R (LinearMap.range f.hom)
     m := FGModuleCat.ofHom <| Submodule.subtype (LinearMap.range f.hom)
-    m_mono := by
-      rw [FGModuleCat.mono_iff_injective]
-      exact Subtype.val_injective
+    m_mono := (FGModuleCat.mono_iff_injective _).2 Subtype.val_injective
     e := FGModuleCat.ofHom <| LinearMap.rangeRestrict f.hom
     fac := rfl }
   isImage :=
@@ -105,8 +99,7 @@ noncomputable def imageFactorisation {M N : FGModuleCat R} (f : M ⟶ N) : Image
         apply this
         rw [← map_add]
         change (F.e ≫ F.m) _ = (F.e ≫ F.m) _
-        rw [F.fac]
-        rw [map_add]
+        rw [F.fac, map_add]
         generalize_proofs _ _ h1 h2 h3
         erw [h1.choose_spec, h2.choose_spec, h3.choose_spec]
         rfl
@@ -117,23 +110,19 @@ noncomputable def imageFactorisation {M N : FGModuleCat R} (f : M ⟶ N) : Image
         rw [← map_smul]
         apply this
         change (F.e ≫ F.m) _ = (F.e ≫ F.m) _
-        rw [F.fac]
-        rw [map_smul]
+        rw [F.fac, map_smul]
         generalize_proofs _ _ h1 h2
         erw [h1.choose_spec, h2.choose_spec]
         rfl }
     lift_fac := fun F => by
       ext ⟨x, hx⟩
-      dsimp only [id_eq, eq_mpr_eq_cast, obj_carrier, eq_mp_eq_cast, AddHom.toFun_eq_coe,
-        AddHom.coe_mk, RingHom.id_apply]
       change (F.e ≫ F.m) _ = x
       rw [F.fac]
       generalize_proofs _ _ h
       erw [h.choose_spec] }
 
 instance hasImages_fgModuleCat : HasImages (FGModuleCat R) where
-  has_image f :=
-  { exists_image := ⟨imageFactorisation f⟩ }
+  has_image f := { exists_image := ⟨imageFactorisation f⟩ }
 
 noncomputable def imageIsoRange {G H : FGModuleCat R} (f : G ⟶ H) :
     image f ≅ FGModuleCat.of R (LinearMap.range f.hom) :=
@@ -143,9 +132,8 @@ noncomputable def imageIsoRange {G H : FGModuleCat R} (f : G ⟶ H) :
 lemma imageIsoRange_hom_comp {G H : FGModuleCat R} (f : G ⟶ H) :
     (imageIsoRange f).hom ≫ FGModuleCat.ofHom (LinearMap.range f.hom).subtype = image.ι _ := by
   apply image.ext
-  rw [← Category.assoc, imageIsoRange]
-  simp only [IsImage.isoExt_hom, image.isImage_lift, image.fac_lift, imageFactorisation_F_e,
-    obj_carrier, image.fac]
+  simp only [← Category.assoc, imageIsoRange, IsImage.isoExt_hom, image.isImage_lift,
+    image.fac_lift, image.fac]
   rfl
 
 @[simp]
@@ -172,20 +160,15 @@ theorem exact_iff (S : ShortComplex (FGModuleCat R)) :
       equalizer_as_kernel, Functor.id_map, Over.mk_hom, Discrete.functor_map_id,
       Category.comp_id] at ha hb hab hba
     rw [CommaMorphism.ext_iff] at hab hba
-    simp only [Functor.id_obj, Functor.const_obj_obj, MonoOver.mk'_obj, Over.mk_left,
-      CostructuredArrow.right_eq_id, and_true] at hab hba
-    change a ≫ b = 𝟙 (image _) at hab
-    change b ≫ a = 𝟙 (kernel _) at hba
-    refine le_antisymm ?_ ?_
+    simp only [CostructuredArrow.right_eq_id, and_true] at hab hba
+    refine le_antisymm ?_ (fun x hx ↦ ?_)
     · rintro _ ⟨x, rfl⟩
       exact congr($S.zero x)
     · let G := kernelIsoKer S.g
       let F := imageIsoRange S.f
-      intro x hx
       simp only [mem_range]
       use (F.hom <| b <| G.inv ⟨x, hx⟩).2.choose
       rw [(F.hom <| b <| G.inv ⟨x, hx⟩).2.choose_spec]
-      change Submodule.subtype _ _ = x
       change ((G.inv ≫ b ≫ F.hom) ≫ FGModuleCat.ofHom ((range S.f.hom).subtype)<| _) = x
       simp only [Category.assoc]
       rw [imageIsoRange_hom_comp, hb, kernelIsoKer_inv_kernel_ι]
@@ -193,32 +176,24 @@ theorem exact_iff (S : ShortComplex (FGModuleCat R)) :
   · intro eq
     apply Quotient.sound'
     refine ⟨⟨(imageIsoRange S.f).hom ≫ FGModuleCat.ofHom (Submodule.inclusion (eq ▸ by rfl)) ≫
-      (kernelIsoKer S.g).inv, 𝟙 _, ?_⟩, ⟨(kernelIsoKer S.g).hom ≫
-        FGModuleCat.ofHom (Submodule.inclusion (eq ▸ by rfl)) ≫ (imageIsoRange S.f).inv, 𝟙 _,  ?_⟩, ?_, ?_⟩
-    · simp only [Functor.id_obj, Functor.const_obj_obj, MonoOver.mk'_obj, Over.mk_left,
-        equalizer_as_kernel, Functor.id_map, Over.mk_hom, Category.assoc, kernelIsoKer_inv_kernel_ι,
-        ← imageIsoRange_hom_comp, Discrete.functor_map_id, Category.comp_id,
-        Iso.cancel_iso_hom_left]
+      (kernelIsoKer S.g).inv, 𝟙 _, ?_⟩, ⟨(kernelIsoKer S.g).hom ≫ FGModuleCat.ofHom
+        (Submodule.inclusion (eq ▸ by rfl)) ≫ (imageIsoRange S.f).inv, 𝟙 _,  ?_⟩, ?_, ?_⟩
+    · simp only [MonoOver.mk'_obj, Functor.id_map, Over.mk_hom, Category.assoc,
+        kernelIsoKer_inv_kernel_ι, ← imageIsoRange_hom_comp]
       rfl
-    · simp only [Functor.id_obj, Functor.const_obj_obj, equalizer_as_kernel, MonoOver.mk'_obj,
-        Over.mk_left, Functor.id_map, Over.mk_hom, Category.assoc, imageIsoRange_inv_comp, ←
-        kernelIsoKer_hom_ker_subtype, Discrete.functor_map_id, Category.comp_id,
-        Iso.cancel_iso_hom_left]
+    · simp only [MonoOver.mk'_obj, Functor.id_map, Over.mk_hom, Category.assoc,
+        imageIsoRange_inv_comp]
       rfl
     · rw [CommaMorphism.ext_iff]
-      simp only [Functor.id_obj, Functor.const_obj_obj, MonoOver.mk'_obj, Over.mk_left,
-        equalizer_as_kernel, CostructuredArrow.right_eq_id, and_true]
+      simp only [CostructuredArrow.right_eq_id, and_true]
       change (_ ≫ _ ≫ _) ≫ (_ ≫ _ ≫ _) = 𝟙 (image S.f)
-      simp only [Functor.id_obj, Functor.const_obj_obj, MonoOver.mk'_obj, Over.mk_left,
-        Category.assoc, Iso.inv_hom_id_assoc]
+      simp only [Category.assoc, Iso.inv_hom_id_assoc]
       rw [← Category.assoc _ _ (imageIsoRange S.f).inv]
       exact (imageIsoRange S.f).hom_inv_id
     · rw [CommaMorphism.ext_iff]
-      simp only [Functor.id_obj, Functor.const_obj_obj, equalizer_as_kernel, MonoOver.mk'_obj,
-        Over.mk_left, CostructuredArrow.right_eq_id, and_true]
+      simp only [CostructuredArrow.right_eq_id, and_true]
       change (_ ≫ _ ≫ _) ≫ (_ ≫ _ ≫ _) = 𝟙 (kernel S.g)
-      simp only [Functor.id_obj, Functor.const_obj_obj, MonoOver.mk'_obj, Over.mk_left,
-        Category.assoc, Iso.inv_hom_id_assoc]
+      simp only [Category.assoc, Iso.inv_hom_id_assoc]
       rw [← Category.assoc _ _ (kernelIsoKer S.g).inv]
       exact (kernelIsoKer S.g).hom_inv_id
 

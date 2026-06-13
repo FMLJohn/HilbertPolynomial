@@ -27,7 +27,8 @@ section Equivalence
 variable {R S : Type u} [CommRing R] [CommRing S] (e : R ≃+* S)
 
 set_option linter.unusedVariables false in
-def _root_.RingEquiv.transferFGModule (e : R ≃+* S) (M : Type v) [AddCommGroup M] [Module R M] : Type v := M
+def _root_.RingEquiv.transferFGModule (e : R ≃+* S) (M : Type v) [AddCommGroup M] [Module R M] :
+    Type v := M
 
 instance (M : Type v) [AddCommGroup M] [Module R M] : AddCommGroup (e.transferFGModule M) :=
   inferInstanceAs <| AddCommGroup M
@@ -45,20 +46,15 @@ instance (M : Type v) [AddCommGroup M] [Module R M] [Module.Finite R M] :
 instance (M : Type v) [AddCommGroup M] [Module R M] [Module.Finite R M] : Module.Finite S (e.transferFGModule M) := by
   let a : Algebra R S := e.toRingHom.toAlgebra
   have s : IsScalarTower R S (e.transferFGModule M) := by
-    constructor
-    intros x y z
+    refine ⟨fun x y z => ?_⟩
     convert_to (e.symm (e x * y)) • z = x • (e.symm y • z)
     rw [map_mul, mul_smul, e.symm_apply_apply]
-
-  refine Module.Finite.of_restrictScalars_finite R S _
+  exact Module.Finite.of_restrictScalars_finite R S _
 
 instance (M : FGModuleCat R) : Module.Finite R M.1 := M.2
 
-
-/--
-For any isomorphic rings `R` and `S`, the category of finitely generated modules over `R` and `S`
-are equivalent.
--/
+/-- For any isomorphic rings `R` and `S`, the category of finitely generated modules over
+`R` and `S` are equivalent. -/
 @[simps!]
 def _root_.RingEquiv.toFGModuleCatEquivalenceFunctor : FGModuleCat R ⥤ FGModuleCat S :=
 { obj := fun M ↦ .of S (e.transferFGModule M)
@@ -70,10 +66,8 @@ def _root_.RingEquiv.toFGModuleCatEquivalenceFunctor : FGModuleCat R ⥤ FGModul
   map_id := by intros; ext; rfl
   map_comp := by intros; ext; rfl }
 
-/--
-For any isomorphic rings `R` and `S`, the category of finitely generated modules over `R` and `S`
-are equivalent.
--/
+/-- For any isomorphic rings `R` and `S`, the category of finitely generated modules over
+`R` and `S` are equivalent. -/
 @[simps!]
 def _root_.RingEquiv.toFGModuleCatEquivalenceInverse : FGModuleCat S ⥤ FGModuleCat R :=
 { obj := fun M ↦ .of R (e.symm.transferFGModule M)
@@ -85,10 +79,8 @@ def _root_.RingEquiv.toFGModuleCatEquivalenceInverse : FGModuleCat S ⥤ FGModul
   map_id := by intros; ext; rfl
   map_comp := by intros; ext; rfl }
 
-/--
-For any isomorphic rings `R` and `S`, the category of finitely generated modules over `R` and `S`
-are equivalent.
--/
+/-- For any isomorphic rings `R` and `S`, the category of finitely generated modules over
+`R` and `S` are equivalent. -/
 @[simps]
 def _root_.RingEquiv.toFGModuleCatEquivalence : FGModuleCat R ≌ FGModuleCat S where
   functor := e.toFGModuleCatEquivalenceFunctor
@@ -156,7 +148,6 @@ variable {R : Type v} [Ring R] [IsNoetherianRing R]
 
 instance {J : Type} [Finite J] (Z : J → ModuleCat R) [∀ j, Module.Finite R (Z j)] :
     Module.Finite R (∏ᶜ fun j => Z j : ModuleCat R) := by
-  haveI : Module.Finite R (ModuleCat.of R (∀ j, Z j)) := by unfold ModuleCat.of; infer_instance
   apply Module.Finite.of_injective (ModuleCat.piIsoPi _).hom.hom
     ((ModuleCat.mono_iff_injective _).1 _)
   exact IsIso.mono_of_iso (ModuleCat.piIsoPi fun j ↦ Z j).hom
@@ -165,14 +156,9 @@ instance (F : J ⥤ FGModuleCat R) :
     Module.Finite R (limit (F ⋙ forget₂ (FGModuleCat R) (ModuleCat.{v} R)) : ModuleCat.{v} R) :=
   haveI : ∀ j, Module.Finite R ((F ⋙ forget₂ (FGModuleCat R) (ModuleCat.{v} R)).obj j) := by
     intro j; change Module.Finite R (F.obj j); infer_instance
-  haveI : IsNoetherian R (ModuleCat.of R $
-      (i : J) → ((F ⋙ forget₂ (FGModuleCat R) (ModuleCat R)).obj i)) :=
-    inferInstanceAs $ IsNoetherian R $
-      (i : J) → (F ⋙ forget₂ (FGModuleCat R) (ModuleCat R)).obj i
   haveI : IsNoetherian R
       (∏ᶜ fun j ↦ (F ⋙ forget₂ (FGModuleCat R) (ModuleCat R)).obj j : ModuleCat R) :=
     isNoetherian_of_linearEquiv (ModuleCat.piIsoPi _).symm.toLinearEquiv
-
   Module.Finite.of_injective
     (limitSubobjectProduct (F ⋙ forget₂ (FGModuleCat R) (ModuleCat.{v} R))).hom
     ((ModuleCat.mono_iff_injective _).1 inferInstance)
@@ -182,8 +168,7 @@ is Noetherian. -/
 noncomputable def forget₂CreatesLimitOfNoetherian (F : J ⥤ FGModuleCat R) :
     CreatesLimit F (forget₂ (FGModuleCat R) (ModuleCat.{v} R)) :=
   createsLimitOfFullyFaithfulOfIso
-    ⟨(limit (F ⋙ forget₂ (FGModuleCat R) (ModuleCat.{v} R)) : ModuleCat.{v} R), inferInstance⟩
-    (Iso.refl _)
+    ⟨(limit (F ⋙ forget₂ _ _) : ModuleCat.{v} R), inferInstance⟩ (Iso.refl _)
 
 noncomputable instance : CreatesLimitsOfShape J (forget₂ (FGModuleCat R) (ModuleCat.{v} R)) where
   CreatesLimit {F} := forget₂CreatesLimitOfNoetherian F

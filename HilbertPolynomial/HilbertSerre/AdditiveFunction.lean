@@ -22,7 +22,6 @@ we have `μ(B) = μ(A) + μ(C)`.
 - if `f : A ⟶ B`, then `μ (kernel f) + μ (image f) = μ A` and `μ (image f) + μ (cokernel f) = μ B`
 - if `A₀ → A₁ → A₂ → A₃ → A₄ → A₅` is exact, then
   `μ(A₀) - μ(A₁) + μ(A₂) - μ(A₃) + μ(A₄) - μ(A₅) = μ (ker f₀) - μ (coker f₄)`.
-
 -/
 
 open CategoryTheory CategoryTheory.Limits
@@ -35,20 +34,14 @@ variable [Abelian 𝒞] [Abelian 𝒟]
 
 open ZeroObject
 
-/--
-A function `λ : 𝒞 → ℤ` is additive precisely when `λ B = λ A + λ C` for every short exact sequence
-`s := 0 --> A --> B --> C --> 0`.
--/
+/-- A function `λ : 𝒞 → ℤ` is additive precisely when `λ B = λ A + λ C` for every short exact
+sequence `s := 0 --> A --> B --> C --> 0`. -/
 structure AdditiveFunction where
-  /--
-  A function `λ : 𝒞 → ℤ` is additive precisely when `λ B = λ A + λ C` for every short exact
-  sequence `s := 0 --> A --> B --> C --> 0`.
-  -/
+  /-- A function `λ : 𝒞 → ℤ` is additive precisely when `λ B = λ A + λ C` for every short exact
+  sequence `s := 0 --> A --> B --> C --> 0`. -/
   toFun : 𝒞 → G
-  /--
-  A function `λ : 𝒞 → ℤ` is additive precisely when `λ B = λ A + λ C` for every short exact
-  sequence `s := 0 --> A --> B --> C --> 0`.
-  -/
+  /-- A function `λ : 𝒞 → ℤ` is additive precisely when `λ B = λ A + λ C` for every short exact
+  sequence `s := 0 --> A --> B --> C --> 0`. -/
   additive (s : ShortComplex 𝒞) (hs : s.ShortExact) : toFun s.X₁ + toFun s.X₃ = toFun s.X₂
 
 @[inherit_doc]
@@ -118,12 +111,10 @@ private noncomputable abbrev sc1 : ShortComplex 𝒞 where
 private lemma sc1_exact : sc1 f |>.Exact := by
   simp only [sc1]
   apply ShortComplex.exact_of_f_is_kernel
-
   fapply KernelFork.IsLimit.ofι
   · intro x g h
     refine kernel.lift _ g ?_
-    rw [← image.fac f, ← Category.assoc, h]
-    simp only [zero_comp]
+    rw [← image.fac f, ← Category.assoc, h, zero_comp]
   · intro x g h
     simp only [kernel.lift_ι]
   · intro x g h g' h'
@@ -146,8 +137,7 @@ private lemma sc2_exact : sc2 f |>.Exact := by
   fapply CokernelCofork.IsColimit.ofπ
   · intro x g h
     refine cokernel.desc _ g ?_
-    rw [← image.fac f, Category.assoc, h]
-    simp
+    rw [← image.fac f, Category.assoc, h, comp_zero]
   · aesop_cat
   · intros x g h g' h'
     aesop_cat
@@ -186,9 +176,7 @@ private noncomputable def imageIsoKernel : image s.f ≅ kernel s.g :=
 include hs in
 lemma apply_shortComplex_of_exact : μ (kernel s.f) - μ (image s.g) = μ s.X₁ - μ s.X₂ := by
   have eq1 : μ (kernel s.f) + μ (image s.f) - (μ (kernel s.g) + μ (image s.g)) = μ s.X₁ - μ s.X₂ :=
-    congr_arg₂ (· - ·)
-      (μ.eq_apply_kernel_add_apply_image s.f)
-      (μ.eq_apply_kernel_add_apply_image s.g)
+    congr_arg₂ _ (μ.eq_apply_kernel_add_apply_image s.f) (μ.eq_apply_kernel_add_apply_image s.g)
   rw [μ.eq_of_iso (imageIsoKernel s hs)] at eq1
   rwa [add_comm (μ (kernel s.g)), add_sub_add_right_eq_sub] at eq1
 
@@ -224,8 +212,7 @@ lemma apply_image_eq_apply_ker_succ (n : ℕ) (hn : n + 2 ≤ N) : μ (im_ n) = 
 
 include hS in
 lemma apply_sub_apply_succ (n : ℕ) (hn : n + 3 ≤ N) :
-    μ (S.obj' n) - μ (S.obj' (n + 1)) =
-    μ (ker_ n) - μ (ker_ (n + 2)) := by
+    μ (S.obj' n) - μ (S.obj' (n + 1)) = μ (ker_ n) - μ (ker_ (n + 2)) := by
   have eq0 : μ (S.obj' n) - μ (S.obj' (n + 1)) = μ (ker_ n) - μ (im_ (n + 1)) :=
     μ.apply_shortComplex_of_exact (S.sc hS.toIsComplex n) (hS.exact _) |>.symm
   rw [apply_image_eq_apply_ker_succ (hS := hS)] at eq0
@@ -245,31 +232,24 @@ lemma apply_eq_apply_image_add_apply_image
       refine zero_of_comp_mono (image.ι _) ?_
       rw [Category.assoc, image.fac]
       refine image.ext _ ?_
-      rw [image.fac_assoc, comp_zero]
-
       have eq1 :
           S.map' (n - 1) (n - 1 + 1) ≫ S.map' (n - 1 + 1) (n - 1 + 2) ≫
           S.map' (n - 1 + 2) (n + 1) = 0 := by
         rw [← Category.assoc, hS.toIsComplex.zero (n - 1), zero_comp]
-      simp only [← S.map_comp, homOfLE_comp, ← eq1] }
-
+      simp only [image.fac_assoc, comp_zero, ← S.map_comp, homOfLE_comp, ← eq1] }
   have sc_exact : sc.Exact := by
     have e1 := hS.exact' (n - 1) n (n + 1)
-    rw [ShortComplex.exact_iff_image_eq_kernel] at e1 ⊢
-    simp only [ComposableArrows.obj', Int.reduceNeg, id_eq, Int.Nat.cast_ofNat_Int,
-      ComposableArrows.map', homOfLE_leOfHom] at e1 ⊢
+    simp only [ShortComplex.exact_iff_image_eq_kernel, ComposableArrows.map'] at e1 ⊢
     convert e1 using 1
     · exact imageSubobject_mono _
     · generalize_proofs _ _ _ h
       simp_rw [← image.fac (S.map <| homOfLE h)]
       rw [kernelSubobject_comp_mono]
-
   have sc_shortExact : sc.ShortExact := ⟨sc_exact⟩
   exact μ.additive _ sc_shortExact |>.symm
 
 include hS in
-lemma apply_eq_apply_kernel_add_apply_kernel
-    (n : ℕ) (hn : n + 2 ≤ N) :
+lemma apply_eq_apply_kernel_add_apply_kernel (n : ℕ) (hn : n + 2 ≤ N) :
     μ (S.obj' n) = μ (kernel (S.map' n (n + 1))) + μ (kernel (S.map' (n + 1) (n + 2))) := by
   let sc : ShortComplex 𝒞 :=
   { X₁ := kernel (S.map' n (n + 1))
@@ -278,11 +258,9 @@ lemma apply_eq_apply_kernel_add_apply_kernel
     f := kernel.ι _
     g := kernel.lift _ (S.map' _ _) <| hS.toIsComplex.zero n
     zero := zero_of_comp_mono (kernel.ι _) <| by simp }
-
   have sc_exact : sc.Exact := by
     apply ShortComplex.exact_of_f_is_kernel
-    simp only [id_eq, Int.reduceNeg, Int.Nat.cast_ofNat_Int, Nat.cast_ofNat, ComposableArrows.map',
-      homOfLE_leOfHom, ComposableArrows.obj', sc]
+    simp only [sc]
     fapply KernelFork.IsLimit.ofι
     · intro x g h
       exact kernel.lift _ g <| by simpa using h =≫ kernel.ι _
@@ -291,19 +269,14 @@ lemma apply_eq_apply_kernel_add_apply_kernel
     · intro x g h g' h'
       ext
       simpa
-
   have sc_shortExact : sc.ShortExact := by
     refine .mk' sc_exact equalizer.ι_mono ?_
     change Epi (kernel.lift _ _ _)
-
-    suffices eq0 :
-      (kernel.lift _ (S.map' n (n + 1)) <| hS.toIsComplex.zero n) =
+    suffices eq0 : (kernel.lift _ (S.map' n (n + 1)) <| hS.toIsComplex.zero n) =
       factorThruImage _ ≫ (im_eq_ker_succ S hS n).hom by rw [eq0]; exact epi_comp _ _
-
     ext
     rw [im_eq_ker_succ_hom (n := n), kernel.lift_ι, Category.assoc, Category.assoc, Category.assoc,
       kernelSubobject_arrow, imageToKernel_arrow, imageSubobject_arrow', image.fac]
-
   exact μ.additive _ sc_shortExact |>.symm
 
 end arbitrary_length
@@ -320,7 +293,6 @@ lemma alternating_apply_aux_of_length6 :
     (μ (kernel (S.map' 0 1)) - μ (kernel (S.map' 4 5))) + (μ_ 4) - (μ_ 5) := by
   rw [show (μ_ 0) - (μ_ 1) + (μ_ 2) - (μ_ 3) + (μ_ 4) - (μ_ 5) =
     ((μ_ 0) - (μ_ 1)) + ((μ_ 2) - (μ_ 3)) + ((μ_ 4) - (μ_ 5)) by abel]
-
   rw [apply_sub_apply_succ (hS := hS) (n := 0), apply_sub_apply_succ (hS := hS) (n := 2)]
   abel
 
@@ -332,8 +304,7 @@ lemma alternating_sum_apply_of_length6 :
   have eq0 : _ = μ (S.obj' 4) - μ (S.obj' 5) :=
     μ.apply_shortComplex_of_exact' (S.sc hS.toIsComplex 3)
   rw [add_sub_assoc, ← eq0]
-  simp only [Int.ofNat_eq_coe, Int.Nat.cast_ofNat_Int, id_eq, Nat.cast_ofNat, Fin.zero_eta,
-    Fin.mk_one, ComposableArrows.map', sub_add_sub_cancel]
+  simp only [sub_add_sub_cancel]
 
 include hS in
 lemma alternating_sum_apply_eq_zero_of_zero_zero_of_length6_aux
@@ -354,8 +325,7 @@ lemma alternating_sum_apply_eq_zero_of_zero_zero_of_length6
     (left_zero : IsZero S.left) (right_zero : IsZero S.right) :
     - (μ_ 1) + (μ_ 2) - (μ_ 3) + (μ_ 4) = 0 := by
   refine Eq.trans ?_ <|
-    μ.alternating_sum_apply_eq_zero_of_zero_zero_of_length6_aux (hS := hS)
-      S left_zero right_zero
+    μ.alternating_sum_apply_eq_zero_of_zero_zero_of_length6_aux (hS := hS) S left_zero right_zero
   rw [show (μ_ 0) = 0 from (μ.eq_of_iso <| IsZero.iso left_zero <| isZero_zero _).trans μ.map_zero]
   rw [show (μ_ 5) = 0 from (μ.eq_of_iso <| IsZero.iso right_zero <| isZero_zero _).trans μ.map_zero]
   rw [zero_sub, sub_zero]
@@ -366,9 +336,7 @@ lemma alternating_sum_apply_eq_zero_of_zero_zero_of_length6'
     (μ_ 1) - (μ_ 2) + (μ_ 3) - (μ_ 4) = 0 := by
   have eq0 := congr_arg (-·) <|
     μ.alternating_sum_apply_eq_zero_of_zero_zero_of_length6 (hS := hS) S left_zero right_zero
-  dsimp only [id_eq, Int.reduceNeg, Int.Nat.cast_ofNat_Int, Nat.cast_ofNat, Int.reduceAdd,
-    Int.reduceSub, ComposableArrows.obj', Nat.reduceAdd, Fin.mk_one, Fin.reduceFinMk] at eq0
-  rw [neg_zero] at eq0
+  simp only [Fin.reduceFinMk, neg_zero] at eq0
   rw [← eq0]
   abel
 

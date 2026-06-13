@@ -23,7 +23,6 @@ open CategoryTheory
 namespace FGModuleCat
 
 variable {R : Type u} [Ring R] [IsNoetherianRing R] {X Y : FGModuleCat R} (f : X ⟶ Y)
-
 variable {M : Type u} [AddCommGroup M] [Module R M] [Module.Finite R M]
 
 instance : Module.Finite R X.obj := X.2
@@ -44,8 +43,8 @@ theorem ker_eq_bot_of_mono [Mono f] : LinearMap.ker f.hom = ⊥ :=
 omit [IsNoetherianRing R] in
 theorem range_eq_top_of_epi [Epi f] : LinearMap.range f.hom = ⊤ :=
   LinearMap.range_eq_top_of_cancel fun u v h => by
-    have := cancel_epi (Z := .of R (Y ⧸ LinearMap.range f.hom)) f |>.1 <| ConcreteCategory.hom_ext _ _ <| by
-      intro x; exact LinearMap.congr_fun h x
+    have := cancel_epi (Z := .of R (Y ⧸ LinearMap.range f.hom)) f |>.1 <|
+      ConcreteCategory.hom_ext _ _ <| by intro x; exact LinearMap.congr_fun h x
     exact congr($(this).hom)
 
 theorem mono_iff_ker_eq_bot : Mono f ↔ LinearMap.ker f.hom = ⊥ :=

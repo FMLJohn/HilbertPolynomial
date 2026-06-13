@@ -27,17 +27,17 @@ section
 variable {M N : FGModuleCat R} (f : M ⟶ N)
 
 /-- The kernel cone induced by the concrete kernel. -/
-def kernelCone : KernelFork f :=
-  KernelFork.ofι (Z := .of R (LinearMap.ker f.hom)) (FGModuleCat.ofHom <| Submodule.subtype _) <| by ext x; cases x; aesop
+def kernelCone : KernelFork f := KernelFork.ofι (Z := .of R (LinearMap.ker f.hom))
+  (FGModuleCat.ofHom <| Submodule.subtype _) <| by ext x; cases x; aesop
 
 /-- The kernel of a linear map is a kernel in the categorical sense. -/
 def kernelIsLimit : IsLimit (kernelCone (R := R) f) :=
   Fork.IsLimit.mk _
-    (fun s ↦ FGModuleCat.ofHom <|  LinearMap.codRestrict (LinearMap.ker f.hom) (Fork.ι s).hom fun c =>
-        LinearMap.mem_ker.2 <| by
-          rw [← LinearMap.comp_apply, ← ModuleCat.hom_comp]
-          erw [s.condition, HasZeroMorphisms.comp_zero (Fork.ι s) N]
-          rfl)
+    (fun s ↦ FGModuleCat.ofHom <|  LinearMap.codRestrict (LinearMap.ker f.hom) (Fork.ι s).hom
+      fun c => LinearMap.mem_ker.2 <| by
+        rw [← LinearMap.comp_apply, ← ModuleCat.hom_comp]
+        erw [s.condition, HasZeroMorphisms.comp_zero (Fork.ι s) N]
+        rfl)
     (fun s => by ext : 1; exact LinearMap.subtype_comp_codRestrict _ _ _) <| by
     intro s m h
     ext : 1
@@ -45,15 +45,16 @@ def kernelIsLimit : IsLimit (kernelCone (R := R) f) :=
 
 /-- The cokernel cocone induced by the projection onto the quotient. -/
 def cokernelCocone : CokernelCofork f :=
-  CokernelCofork.ofπ (Z := .of R (N ⧸ LinearMap.range f.hom)) (FGModuleCat.ofHom <| Submodule.mkQ _) <| by
+  CokernelCofork.ofπ (Z := .of R (N ⧸ LinearMap.range f.hom))
+  (FGModuleCat.ofHom <| Submodule.mkQ _) <| by
     ext : 1
     exact LinearMap.range_mkQ_comp _
 
 /-- The projection onto the quotient is a cokernel in the categorical sense. -/
 def cokernelIsColimit : IsColimit (cokernelCocone f) :=
   Cofork.IsColimit.mk _
-    (fun s => FGModuleCat.ofHom <|
-      f.hom.range.liftQ (Cofork.π s).hom <| LinearMap.range_le_ker_iff.2 <| congr($(CokernelCofork.condition s).hom))
+    (fun s => FGModuleCat.ofHom <| f.hom.range.liftQ (Cofork.π s).hom <|
+      LinearMap.range_le_ker_iff.2 <| congr($(CokernelCofork.condition s).hom))
     (fun s => by ext : 1; exact f.hom.range.liftQ_mkQ (Cofork.π s).hom _) fun s m h => by
     let f : N ⟶ .of R (N ⧸ LinearMap.range f.hom) := FGModuleCat.ofHom (LinearMap.range f.hom).mkQ
     haveI : Epi f := (epi_iff_range_eq_top _).mpr (Submodule.range_mkQ _)
@@ -76,9 +77,8 @@ attribute [local instance] hasCokernels_fgModuleCat
 
 variable {G H : FGModuleCat R} (f : G ⟶ H)
 
-/-- The categorical kernel of a morphism in `ModuleCat`
-agrees with the usual module-theoretical kernel.
--/
+/-- The categorical kernel of a morphism in `ModuleCat` agrees with the usual module-theoretical
+kernel. -/
 noncomputable def kernelIsoKer {G H : FGModuleCat R} (f : G ⟶ H) :
     -- Porting note: broken dot notation
     kernel f ≅ FGModuleCat.of R (LinearMap.ker f.hom) :=
@@ -86,7 +86,7 @@ noncomputable def kernelIsoKer {G H : FGModuleCat R} (f : G ⟶ H) :
 
 -- We now show this isomorphism commutes with the inclusion of the kernel into the source.
 @[simp, elementwise]
-    -- Porting note: broken dot notation
+-- Porting note: broken dot notation
 theorem kernelIsoKer_inv_kernel_ι : (kernelIsoKer f).inv ≫ kernel.ι f =
     FGModuleCat.ofHom (LinearMap.ker f.hom).subtype :=
   limit.isoLimitCone_inv_π _ _
@@ -111,8 +111,6 @@ omit [IsNoetherianRing R] in
 theorem cokernel_π_cokernelIsoRangeQuotient_hom :
     cokernel.π f ≫ (cokernelIsoRangeQuotient f).hom = FGModuleCat.ofHom f.hom.range.mkQ :=
   colimit.isoColimitCocone_ι_hom (F := parallelPair f 0) (t := ⟨_, cokernelIsColimit f⟩) .one
-
-
 
 omit [IsNoetherianRing R] in
 @[simp, elementwise]
