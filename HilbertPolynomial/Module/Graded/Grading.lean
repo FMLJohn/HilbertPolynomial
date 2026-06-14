@@ -11,11 +11,11 @@ import HilbertPolynomial.Module.Graded.Homogeneous
 Let `A` be a graded ring and `M` a graded module over `A`.
 
 - If `R` is a homogeneous subring of `A`, then `R` is also a grade ring with `i`-th grading being
-  `Rᵢ ∩ Aᵢ`
+  `Rᵢ ∩ Aᵢ`.
 - If `N` is a homogeneous submodule of `M`, then `N` is also a graded module over `A` with `i`-th
-  grading being `Nᵢ ∩ Mᵢ`
+  grading being `Nᵢ ∩ Mᵢ`.
 - If `N` is a homogeneous submodule of `M`, then `M ⧸ N` is also a graded module over `A` with
-  `i`-th grading being `Mᵢ ⧸ (Nᵢ ∩ Mᵢ)`
+  `i`-th grading being `Mᵢ ⧸ (Nᵢ ∩ Mᵢ)`.
 -/
 
 open DirectSum
@@ -70,8 +70,7 @@ lemma grading.decompose_add (a b : A') :
     grading.decompose A' (a + b) = grading.decompose A' a + grading.decompose A' b := by
   refine DFinsupp.ext fun i ↦ ?_
   ext
-  simp only [decompose_apply, Subsemiring.coe_add, Subring.coe_toSubsemiring,
-    DirectSum.decompose_add, add_apply, AddMemClass.coe_add, AddSubmonoid.coe_add]
+  simp only [decompose_apply, DirectSum.decompose_add, add_apply, AddMemClass.coe_add]
 
 lemma grading.decompose_leftInverse :
     Function.LeftInverse (DirectSum.coeAddMonoidHom A'.grading) (grading.decompose A') := by
@@ -84,8 +83,7 @@ lemma grading.decompose_leftInverse :
 
 lemma grading.decompose_rightInverse :
     Function.RightInverse (DirectSum.coeAddMonoidHom A'.grading) (grading.decompose A') := by
-  intro a
-  refine DFinsupp.ext fun i ↦ ?_
+  refine fun a ↦ DFinsupp.ext fun i ↦ ?_
   ext
   rw [grading.decompose_apply]
   induction' a using DirectSum.induction_on with j x x y hx hy
@@ -125,7 +123,6 @@ variable (R : HomogeneousSubring 𝒜) [(a : A) → Decidable (a ∈ R)]
 lemma irrelevant_eq  :
     (HomogeneousIdeal.irrelevant R.grading).toIdeal =
     Ideal.comap (R.toSubring.subtype : R →+* A) (HomogeneousIdeal.irrelevant 𝒜).toIdeal := by
-  classical
   ext x
   erw [HomogeneousIdeal.mem_irrelevant_iff, Ideal.mem_comap, HomogeneousIdeal.mem_irrelevant_iff,
     GradedRing.proj_apply, GradedRing.proj_apply, HomogeneousSubring.grading.decompose_def,
@@ -151,18 +148,14 @@ variable (p : HomogeneousSubmodule A ℳ)
 
 section submodule_grading
 
-/--
-If `A` is a graded ring and `M` a graded module over `A`. Let `p` a homogeneous submodule of `M`,
-then `p` is a graded module over `A` as well whose degree `i` part is `Mᵢ ∩ p`.
--/
-def grading (i : ιM) : AddSubgroup p :=
-  (AddSubgroup.ofClass (ℳ i)).comap p.subtype
+/-- If `A` is a graded ring and `M` a graded module over `A`. Let `p` a homogeneous submodule of
+`M`, then `p` is a graded module over `A` as well whose degree `i` part is `Mᵢ ∩ p`. -/
+def grading (i : ιM) : AddSubgroup p := (AddSubgroup.ofClass (ℳ i)).comap p.subtype
 
 variable [(i : ιM) → (x : ℳ i) → Decidable (x ≠ 0)] [∀ a : M, Decidable (a ∈ p)]
 
-/--
-`p ≃ ⨁ᵢ p ∩ Mᵢ` is defined by `x ↦ i ↦ xᵢ`. This is well-defined because `p` is homogeneous.
--/
+/-- `p ≃ ⨁ᵢ p ∩ Mᵢ` is defined by `x ↦ i ↦ xᵢ`. This is well-defined because `p`
+is homogeneous. -/
 protected def grading.decompose (a : p) : ⨁ i, p.grading i :=
   ∑ i ∈ ((decompose ℳ a).support.filter fun i ↦ (decompose ℳ a i : M) ∈ p).attach,
   .of _ (i : ιM) ⟨⟨decompose ℳ a i, Finset.mem_filter.mp i.2 |>.2⟩, SetLike.coe_mem _⟩
@@ -177,10 +170,8 @@ lemma grading.decompose_zero : grading.decompose p 0 = 0 := by
 
 lemma grading.decompose_apply (a : p) (j : ιM) :
     (grading.decompose p a j : M) = decompose ℳ a j := by
-  delta grading.decompose
-  simp only
   erw [DFinsupp.finset_sum_apply,  AddSubmonoidClass.coe_finset_sum,
-      AddSubmonoidClass.coe_finset_sum]
+    AddSubmonoidClass.coe_finset_sum]
   simp_rw [DirectSum.coe_of_apply]
   calc _
     _ = (∑ i ∈ ((decompose ℳ (a : M)).support.filter
@@ -193,10 +184,9 @@ lemma grading.decompose_apply (a : p) (j : ιM) :
   · rw [hj]
     convert Finset.sum_empty
     ext ⟨i, hi⟩
-    simp only [Finset.mem_filter, DFinsupp.mem_support_toFun, ne_eq, Finset.mem_attach, true_and,
+    simp only [Finset.mem_filter, DFinsupp.mem_support_toFun, Finset.mem_attach, true_and,
       Finset.not_mem_empty, iff_false, S] at hi ⊢
-    intro h
-    exact hi.1 (Subtype.ext <| h.symm ▸ hj)
+    exact fun h ↦ hi.1 (Subtype.ext <| h.symm ▸ hj)
   have eq : S = {⟨j, by
     simp only [Finset.filter_congr_decidable, Finset.mem_filter, DFinsupp.mem_support_toFun, ne_eq]
     exact ⟨by contrapose! hj; exact Subtype.ext_iff.mp hj, p.is_homogeneous' _ a.2⟩⟩} := by aesop
@@ -206,8 +196,7 @@ lemma grading.decompose_add (a b : p) :
     grading.decompose p (a + b) = grading.decompose p a + grading.decompose p b := by
   refine DFinsupp.ext fun i ↦ ?_
   ext
-  simp only [decompose_apply, Subsemiring.coe_add, Subring.coe_toSubsemiring,
-    DirectSum.decompose_add, add_apply, AddMemClass.coe_add, AddSubmonoid.coe_add]
+  simp only [decompose_apply, DirectSum.decompose_add, add_apply, AddMemClass.coe_add]
 
 lemma grading.decompose_leftInverse :
     Function.LeftInverse (DirectSum.coeAddMonoidHom p.grading) (grading.decompose p) := by
@@ -232,8 +221,7 @@ lemma grading.decompose_leftInverse :
 
 lemma grading.decompose_rightInverse :
     Function.RightInverse (DirectSum.coeAddMonoidHom p.grading) (grading.decompose p) := by
-  intro a
-  refine DFinsupp.ext fun i ↦ ?_
+  refine fun a ↦ DFinsupp.ext fun i ↦ ?_
   ext
   rw [grading.decompose_apply]
   induction' a using DirectSum.induction_on with j x x y hx hy
@@ -263,25 +251,18 @@ variable (p : HomogeneousSubmodule A ℳ)
 
 open Classical
 
-/--
-The addive group homomorphism from `Mᵢ ⧸ p ∩ Mᵢ` to `M ⧸ p`
--/
+/-- The addive group homomorphism from `Mᵢ ⧸ p ∩ Mᵢ` to `M ⧸ p`. -/
 @[simps!]
 def quotientGradingEmb (i : ιM) :
-    ℳ i ⧸ (AddSubgroup.addSubgroupOf p.toAddSubgroup _) →+
-    M ⧸ p.toSubmodule :=
+    ℳ i ⧸ (AddSubgroup.addSubgroupOf p.toAddSubgroup _) →+ M ⧸ p.toSubmodule :=
   QuotientAddGroup.map _ _ (ℳ i).subtype <| le_refl _
 
-/--
-`M ⧸ p` is a graded module over `A` whose `i`-th degree part is `Mᵢ ⧸ p ∩ Mᵢ`
--/
+/-- `M ⧸ p` is a graded module over `A` whose `i`-th degree part is `Mᵢ ⧸ p ∩ Mᵢ`. -/
 def quotientGrading (i : ιM) : AddSubgroup (M ⧸ p.toSubmodule) :=
   (p.quotientGradingEmb i).range
 
-/--
-`M ⧸ p ≃ ⨁ᵢ Mᵢ ⧸ Mᵢ ∩ p` is given by `[x] ↦ i ↦ [xᵢ]`. This is well-defined because `p` is
-homogeneous.
--/
+/-- `M ⧸ p ≃ ⨁ᵢ Mᵢ ⧸ Mᵢ ∩ p` is given by `[x] ↦ i ↦ [xᵢ]`. This is well-defined
+because `p` is homogeneous. -/
 def quotientGrading.decomposeAux : M →+ ⨁ i, p.quotientGrading i :=
   AddMonoidHom.comp
     (DFinsupp.liftAddHom fun i ↦
@@ -297,28 +278,24 @@ def quotientGrading.decomposeAux : M →+ ⨁ i, p.quotientGrading i :=
           · rw [of_eq_of_ne]; exact h
         map_add' := by
           rintro a b
-          simp only [AddSubmonoid.coe_add, AddSubgroup.coe_toAddSubmonoid, map_add,
-            Submodule.mkQ_apply]
+          simp only [Submodule.mkQ_apply]
           refine DFinsupp.ext fun j ↦ ?_
           ext
           by_cases h : i = j
           · subst h
-            simp only [AddSubgroup.coe_add, Submodule.Quotient.mk_add, of_eq_same, add_apply,
-              AddMemClass.mk_add_mk]
+            simp only [AddSubgroup.coe_add, Submodule.Quotient.mk_add, of_eq_same, add_apply]
           · rw [of_eq_of_ne, DirectSum.add_apply, of_eq_of_ne, of_eq_of_ne, add_zero] <;> exact h })
-  (DirectSum.decomposeAddEquiv ℳ).toAddMonoidHom
+    (DirectSum.decomposeAddEquiv ℳ).toAddMonoidHom
 
 lemma quotientGrading.le_decomposeAux_ker :
     p.toSubmodule.toAddSubgroup ≤ (quotientGrading.decomposeAux p).ker := fun x hx ↦
   show DFinsupp.sumAddHom _ (decompose ℳ x) = 0 by
-  have eq0 :
-      decompose ℳ x =
-      ∑ i ∈ (decompose ℳ x).support,
-        (DFinsupp.single i ⟨decompose ℳ x i, SetLike.coe_mem _⟩) := by
+  have eq0 : decompose ℳ x = ∑ i ∈ (decompose ℳ x).support,
+      (DFinsupp.single i ⟨decompose ℳ x i, SetLike.coe_mem _⟩) := by
     refine DFinsupp.ext fun i ↦ ?_
     ext
-    simp only [Subtype.coe_eta, DFinsupp.finset_sum_apply, DFinsupp.single_apply,
-      Finset.sum_dite_eq', DFinsupp.mem_support_toFun, ne_eq, ite_not, SetLike.coe_eq_coe]
+    simp only [DFinsupp.finset_sum_apply, DFinsupp.single_apply, Finset.sum_dite_eq',
+      DFinsupp.mem_support_toFun, ne_eq, SetLike.coe_eq_coe]
     split_ifs with h
     · exact h
     · rfl
@@ -332,28 +309,22 @@ lemma quotientGrading.le_decomposeAux_ker :
   · subst h; simp only [of_eq_same, Submodule.Quotient.mk_eq_zero, mem_iff]; exact p.2 _ hx
   · rw [of_eq_of_ne, ZeroMemClass.coe_zero]; exact h
 
-/--
-`M ⧸ p ≃ ⨁ᵢ Mᵢ ⧸ Mᵢ ∩ p` is given by `[x] ↦ i ↦ [xᵢ]`. This is well-defined because `p` is
-homogeneous.
--/
+/-- `M ⧸ p ≃ ⨁ᵢ Mᵢ ⧸ Mᵢ ∩ p` is given by `[x] ↦ i ↦ [xᵢ]`. This is well-defined because `p` is
+homogeneous. -/
 protected def quotientGrading.decompose : M ⧸ p.toSubmodule →+ ⨁ i, p.quotientGrading i :=
-QuotientAddGroup.lift _ (quotientGrading.decomposeAux p) (quotientGrading.le_decomposeAux_ker p)
+  QuotientAddGroup.lift _ (quotientGrading.decomposeAux p) (quotientGrading.le_decomposeAux_ker p)
 
 lemma quotientGrading.decompose_apply_mkQ_of_mem (i : ιM) (m : M) (hm : m ∈ ℳ i) :
     (quotientGrading.decompose p (p.toSubmodule.mkQ m) i : M ⧸ p.toSubmodule) =
     p.toSubmodule.mkQ m := by
-  simp only [quotientGrading.decompose, Submodule.mkQ_apply]
   erw [QuotientAddGroup.lift_mk']
-  simp only [decomposeAux, Submodule.mkQ_apply, DFinsupp.liftAddHom_apply, AddMonoidHom.coe_comp,
-    Function.comp_apply]
-  have eq0 :
-      decompose ℳ m =
-      ∑ i ∈ (decompose ℳ m).support,
-        (DFinsupp.single i ⟨decompose ℳ m i, SetLike.coe_mem _⟩) := by
+  simp only [decomposeAux, DFinsupp.liftAddHom_apply, AddMonoidHom.coe_comp, Function.comp_apply]
+  have eq0 : decompose ℳ m = ∑ i ∈ (decompose ℳ m).support,
+      (DFinsupp.single i ⟨decompose ℳ m i, SetLike.coe_mem _⟩) := by
     refine DFinsupp.ext fun i ↦ ?_
     ext
-    simp only [Subtype.coe_eta, DFinsupp.finset_sum_apply, DFinsupp.single_apply,
-      Finset.sum_dite_eq', DFinsupp.mem_support_toFun, ne_eq, ite_not, SetLike.coe_eq_coe]
+    simp only [DFinsupp.finset_sum_apply, DFinsupp.single_apply, Finset.sum_dite_eq',
+      DFinsupp.mem_support_toFun, ne_eq, SetLike.coe_eq_coe]
     split_ifs with h
     · exact h
     · rfl
@@ -363,8 +334,7 @@ lemma quotientGrading.decompose_apply_mkQ_of_mem (i : ιM) (m : M) (hm : m ∈ �
   conv_rhs => rw [← DirectSum.sum_support_decompose ℳ m]
   change (p.quotientGrading i).subtype _ = p.toSubmodule.mkQ _
   rw [map_sum, map_sum]
-  refine Finset.sum_congr rfl ?_
-  intros j hj
+  refine Finset.sum_congr rfl fun j hj ↦ ?_
   simp only [AddSubgroup.coe_subtype, Submodule.mkQ_apply]
   by_cases h : i = j
   · subst h
@@ -374,25 +344,21 @@ lemma quotientGrading.decompose_apply_mkQ_of_mem (i : ιM) (m : M) (hm : m ∈ �
     · exact Ne.symm h
 
 lemma quotientGrading.decompose_apply_mkQ_of_ne (i j : ιM) (m : M) (hm : m ∈ ℳ i) (h : i ≠ j) :
-    (quotientGrading.decompose p (p.toSubmodule.mkQ m) j : M ⧸ p.toSubmodule) =
-    0 := by
-  simp only [quotientGrading.decompose, Submodule.mkQ_apply]
+    (quotientGrading.decompose p (p.toSubmodule.mkQ m) j : M ⧸ p.toSubmodule) = 0 := by
   erw [QuotientAddGroup.lift_mk']
   simp only [decomposeAux, Submodule.mkQ_apply, DFinsupp.liftAddHom_apply, AddMonoidHom.coe_comp,
     Function.comp_apply]
-  have eq0 :
-      decompose ℳ m =
-      ∑ i ∈ (decompose ℳ m).support,
-        (DFinsupp.single i ⟨decompose ℳ m i, SetLike.coe_mem _⟩) := by
+  have eq0 : decompose ℳ m = ∑ i ∈ (decompose ℳ m).support,
+      (DFinsupp.single i ⟨decompose ℳ m i, SetLike.coe_mem _⟩) := by
     refine DFinsupp.ext fun i ↦ ?_
     ext
-    simp only [Subtype.coe_eta, DFinsupp.finset_sum_apply, DFinsupp.single_apply,
-      Finset.sum_dite_eq', DFinsupp.mem_support_toFun, ne_eq, ite_not, SetLike.coe_eq_coe]
+    simp only [DFinsupp.finset_sum_apply, DFinsupp.single_apply, Finset.sum_dite_eq',
+      DFinsupp.mem_support_toFun, ne_eq, SetLike.coe_eq_coe]
     split_ifs with h
     · exact h
     · rfl
   erw [eq0, map_sum]
-  simp only [Subtype.coe_eta, DFinsupp.sumAddHom_single, AddMonoidHom.coe_mk, ZeroHom.coe_mk]
+  simp only [DFinsupp.sumAddHom_single, AddMonoidHom.coe_mk, ZeroHom.coe_mk]
   rw [DFinsupp.finset_sum_apply]
   norm_cast
   apply Finset.sum_eq_zero
@@ -400,7 +366,7 @@ lemma quotientGrading.decompose_apply_mkQ_of_ne (i j : ιM) (m : M) (hm : m ∈ 
   ext
   by_cases h : j = k
   · subst h
-    simp only [of_eq_same, ZeroMemClass.coe_zero, Submodule.Quotient.mk_eq_zero, mem_iff]
+    simp only [of_eq_same, ZeroMemClass.coe_zero, Submodule.Quotient.mk_eq_zero]
     rw [decompose_of_mem_ne (hx := hm) (hij := h)]
     exact p.toSubmodule.zero_mem
   · rw [of_eq_of_ne]; exact Ne.symm h
@@ -410,30 +376,23 @@ lemma quotientGrading.decompose_leftInverse :
       (quotientGrading.decompose p) := by
   intro x
   induction' x using Quotient.inductionOn' with x
-  simp only [quotientGrading.decompose, decomposeAux, Submodule.mkQ_apply,
-    DFinsupp.liftAddHom_apply]
-  erw [QuotientAddGroup.lift_mk']
   change DirectSum.coeAddMonoidHom _ (DFinsupp.sumAddHom _ (decompose ℳ x)) = _
-  have eq0 :
-      decompose ℳ x =
-      ∑ i ∈ (decompose ℳ x).support,
-        (DFinsupp.single i ⟨decompose ℳ x i, SetLike.coe_mem _⟩) := by
+  have eq0 : decompose ℳ x = ∑ i ∈ (decompose ℳ x).support,
+      (DFinsupp.single i ⟨decompose ℳ x i, SetLike.coe_mem _⟩) := by
     refine DFinsupp.ext fun i ↦ ?_
     ext
-    simp only [Subtype.coe_eta, DFinsupp.finset_sum_apply, DFinsupp.single_apply,
-      Finset.sum_dite_eq', DFinsupp.mem_support_toFun, ne_eq, ite_not, SetLike.coe_eq_coe]
+    simp only [DFinsupp.finset_sum_apply, DFinsupp.single_apply, Finset.sum_dite_eq',
+      DFinsupp.mem_support_toFun, ne_eq, SetLike.coe_eq_coe]
     split_ifs with h
     · exact h
     · rfl
   rw [eq0, map_sum]
   simp_rw [DFinsupp.sumAddHom_single]
   rw [map_sum]
-  simp only [Subtype.coe_eta, AddMonoidHom.coe_mk, ZeroHom.coe_mk, coeAddMonoidHom_of,
-    Submodule.Quotient.mk''_eq_mk]
+  simp only [AddMonoidHom.coe_mk, ZeroHom.coe_mk, coeAddMonoidHom_of]
   conv_rhs => rw [← DirectSum.sum_support_decompose ℳ x]
   change _ = p.toSubmodule.mkQ _
   rw [map_sum]
-  rfl
 
 lemma quotientGrading.decompose_rightInverse :
     Function.RightInverse (DirectSum.coeAddMonoidHom p.quotientGrading)
@@ -441,21 +400,18 @@ lemma quotientGrading.decompose_rightInverse :
   intro x
   refine DFinsupp.ext fun i ↦ ?_
   induction' x using DirectSum.induction_on with j x x y hx hy
-  · simp  only [map_zero, zero_apply]
+  · simp only [map_zero, zero_apply]
   · rcases x with ⟨x, hx⟩
     induction' x using Quotient.inductionOn' with x
     obtain ⟨y, hy⟩ := hx
     induction' y using Quotient.inductionOn' with y
     erw [quotientGradingEmb, QuotientAddGroup.map_mk'] at hy
     cases' y with y hy'
-    simp only [AddSubgroup.coe_subtype] at hy
-    simp_rw [← hy]
-    simp only [coeAddMonoidHom_of]
+    simp only [← hy, coeAddMonoidHom_of]
     by_cases h : i = j
     · ext
       subst h
-      simp only [of_eq_same]
-      exact quotientGrading.decompose_apply_mkQ_of_mem p i y hy'
+      simpa only [of_eq_same] using quotientGrading.decompose_apply_mkQ_of_mem p i y hy'
     · ext
       rw [of_eq_of_ne, ZeroMemClass.coe_zero]
       swap
@@ -469,8 +425,7 @@ instance quotientDecomposition : DirectSum.Decomposition p.quotientGrading where
   right_inv := quotientGrading.decompose_rightInverse p
 
 instance quotientGradedSMul : SetLike.GradedSMul 𝒜 p.quotientGrading where
-  smul_mem := by
-    intro i j a m ha hm
+  smul_mem := fun i j a m ha hm ↦ by
     obtain ⟨x, rfl⟩ := hm
     induction' x using Quotient.inductionOn' with x
     cases' x with x hx
